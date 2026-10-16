@@ -65,6 +65,9 @@
 	--radius-md: 10px;
 	--radius-lg: 12px;
 
+	/* Motion */
+	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
 	/* Shared spacing */
 	--space-section: 80px;
 	--space-card: 50px;
@@ -209,7 +212,18 @@ ol {
 	transition:
 		background-color 0.2s,
 		border-color 0.2s,
-		color 0.2s;
+		color 0.2s,
+		box-shadow 0.25s,
+		transform 0.25s var(--ease-out);
+}
+
+.btn:hover {
+	transform: translateY(-2px);
+}
+
+.btn:active {
+	transform: translateY(0);
+	transition-duration: 0.08s;
 }
 
 /* Laptop (1440 frame) */
@@ -226,6 +240,7 @@ ol {
 
 .btn-primary:hover {
 	background: var(--green-60);
+	box-shadow: 0 8px 24px rgb(158 255 0 / 0.25);
 }
 
 .btn-secondary {
@@ -255,4 +270,52 @@ ol {
 	border-radius: var(--radius-md);
 	background: linear-gradient(180deg, var(--grey-15) 0%, rgb(38 38 38 / 0) 100%);
 	color: var(--accent);
+	transition: transform 0.35s var(--ease-out);
+}
+
+/* Icon tiles lift slightly when their card is hovered */
+:is(.service, .reason, .item, .job):hover .tile {
+	transform: translateY(-4px) scale(1.05);
+}
+
+/* Motion */
+
+/* Scroll reveal: the hidden starting state is built in BaseLayout from
+   src/scripts/reveal-targets.ts, and src/scripts/reveal.ts plays it. */
+
+@keyframes rise-in {
+	from {
+		opacity: 0;
+		transform: translate(-50%, 40px);
+	}
+}
+
+@keyframes float {
+	50% {
+		transform: translateY(-8px);
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	/* Hero mountain grows up out of the bottom edge on load */
+	.hero__mountain {
+		animation: rise-in 1.4s var(--ease-out) 0.2s both;
+	}
+
+	/* The green cubes bob gently */
+	.cta__cube.is-revealed,
+	.today__cube {
+		animation: float 5s ease-in-out infinite;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+	}
 }

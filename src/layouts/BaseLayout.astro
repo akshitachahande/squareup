@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Footer from '../components/Footer.astro';
 import Navbar from '../components/Navbar.astro';
 import { site } from '../data/site';
+import { revealSelector } from '../scripts/reveal-targets';
 
 interface Props {
 	title?: string;
@@ -11,6 +12,17 @@ interface Props {
 
 const { title, description = site.description } = Astro.props;
 const pageTitle = title ? `${title} | ${site.name}` : `${site.name} | A Digital Product Studio`;
+
+// Starting state for the scroll reveal (see src/scripts/reveal.ts)
+const revealCss = `
+.reveal-ready :is(${revealSelector}):not(.reveal-done) {
+	transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+	transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal-ready :is(${revealSelector}):not(.is-revealed) {
+	opacity: 0;
+	transform: translateY(28px);
+}`;
 ---
 
 <!doctype html>
@@ -23,6 +35,21 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} | A Digital 
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{pageTitle}</title>
+		<!--
+			Opt in to scroll reveal before first paint, so content never flashes.
+			Fail-safe: if the reveal script hasn't started within 3s (blocked or
+			errored), drop the opt-in so nothing stays hidden.
+		-->
+		<script is:inline>
+			if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				var root = document.documentElement;
+				root.classList.add('reveal-ready');
+				setTimeout(function () {
+					if (!window.__reveal) root.classList.remove('reveal-ready');
+				}, 3000);
+			}
+		</script>
+		<style is:inline set:html={revealCss}></style>
 	</head>
 	<body>
 		<Navbar />
@@ -30,5 +57,8 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} | A Digital 
 			<slot />
 		</main>
 		<Footer />
+		<script>
+			import '../scripts/reveal';
+		</script>
 	</body>
 </html>
