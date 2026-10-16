@@ -1,0 +1,84 @@
+---
+/**
+ * Heading, paragraph and grey label that opens a content block on the inner
+ * pages ("At SquareUp ... Here's an overview of our typical process:").
+ */
+interface Props {
+	title: string;
+	text: string;
+	label?: string;
+	/** id for the heading, for aria-labelledby */
+	id?: string;
+}
+
+const { title, text, label, id } = Astro.props;
+---
+
+<div class="intro">
+	<h2 id={id} class="intro__title">{title}</h2>
+	<p class="intro__text">{text}</p>
+	{label && <p class="intro__label">{label}</p>}
+</div>
+
+<style>
+	.intro {
+		padding: 120px var(--space-card) var(--space-card);
+	}
+
+	.intro__title {
+		font-size: var(--fz-h2);
+		font-weight: 600;
+		line-height: 1.2;
+	}
+
+	.intro__text {
+		max-width: 1200px;
+		margin-top: 14px;
+		color: var(--text-muted);
+		line-height: 1.5;
+	}
+
+	.intro__label {
+		display: inline-block;
+		margin-top: 50px;
+		padding: 10px 14px;
+		border-radius: var(--radius-sm);
+		background: var(--surface);
+		font-size: 22px;
+		line-height: 1.4;
+	}
+
+	/* Laptop (1440 frame) */
+	@media (max-width: 1799px) {
+		.intro {
+			padding-top: 80px;
+		}
+
+		.intro__text {
+			max-width: 920px;
+			margin-top: 10px;
+		}
+
+		.intro__label {
+			margin-top: 40px;
+			padding: 8px 10px;
+			font-size: 18px;
+		}
+	}
+
+	/* Mobile (390 frame) */
+	@media (max-width: 1023px) {
+		.intro {
+			padding: 40px 16px;
+		}
+
+		.intro__title {
+			font-size: 28px;
+		}
+
+		.intro__label {
+			margin-top: 30px;
+			font-size: 16px;
+		}
+	}
+</style>
