@@ -1,0 +1,114 @@
+---
+import Icon from '../Icon.astro';
+import SectionBanner from '../SectionBanner.astro';
+import { services } from '../../data/home';
+---
+
+<section aria-labelledby="services-title">
+	<SectionBanner
+		id="services-title"
+		title="Our Services"
+		text="Transform your brand with our innovative digital solutions that captivate and engage your audience."
+	/>
+
+	<ul class="services">
+		{
+			services.map((s) => (
+				<li class="service">
+					<div class="service__head">
+						<span class="tile service__icon">
+							<Icon name={s.icon} size={34} />
+						</span>
+						<h3 class="service__title">{s.title}</h3>
+					</div>
+					<p class="service__text">{s.text}</p>
+					<a href="/services" class="btn btn-secondary service__more">
+						Learn More<span class="sr-only"> about {s.title}</span>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</section>
+
+<style>
+	.services {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.service {
+		display: flex;
+		flex-direction: column;
+		padding: var(--space-card);
+	}
+
+	.service + .service {
+		border-left: 1px solid var(--border);
+	}
+
+	.service__head {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: clamp(40px, calc(40px + 10 * var(--t)), 50px);
+	}
+
+	.service__icon {
+		width: clamp(70px, calc(70px + 18 * var(--t)), 88px);
+		height: clamp(70px, calc(70px + 18 * var(--t)), 88px);
+	}
+
+	.service__title {
+		font-size: var(--fz-h3);
+		font-weight: 600;
+		line-height: 1.5;
+	}
+
+	.service__text {
+		flex: 1;
+		margin-top: clamp(14px, calc(14px + 6 * var(--t)), 20px);
+		color: var(--text-muted);
+		line-height: 1.5;
+	}
+
+	.service__more {
+		margin-top: clamp(60px, calc(60px + 20 * var(--t)), 80px);
+		width: 100%;
+	}
+
+	@media (max-width: 1023px) {
+		.services {
+			grid-template-columns: 1fr;
+		}
+
+		.service + .service {
+			border-left: 0;
+			border-top: 1px solid var(--border);
+		}
+
+		.service__head {
+			flex-direction: row;
+			align-items: center;
+			gap: 14px;
+		}
+
+		.service__icon {
+			width: 58px;
+			height: 58px;
+		}
+
+		.service__icon :global(svg) {
+			width: 28px;
+			height: 28px;
+		}
+
+		.service__text {
+			margin-top: 30px;
+		}
+
+		.service__more {
+			margin-top: 30px;
+		}
+	}
+</style>

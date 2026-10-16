@@ -1,0 +1,215 @@
+---
+import { audiences, brands } from '../../data/home';
+---
+
+<section class="hero" aria-labelledby="hero-title">
+	<div class="hero__main">
+		<h1 class="hero__title" id="hero-title">A Digital Product Studio <br />that will Work</h1>
+
+		<p class="hero__for">
+			<span class="hero__for-desktop">
+				For
+				{
+					audiences.map((a, i) => (
+						<>
+							<span class="hero__chip">{a}</span>
+							{i < audiences.length - 2 && <span class="hero__sep">,</span>}
+							{i === audiences.length - 2 && 'and'}
+						</>
+					))
+				}
+			</span>
+			<span class="hero__for-mobile">
+				For startups, enterprise leaders, media &amp; publishers, and social good.
+			</span>
+		</p>
+
+		<div class="hero__actions">
+			<a href="/work" class="btn btn-outline">Our Works</a>
+			<a href="/contact" class="btn btn-primary">Contact Us</a>
+		</div>
+
+		<img class="hero__mountain" src="/images/abstract/mountain.svg" alt="" width="713" height="200" />
+	</div>
+
+	<div class="brands">
+		<p class="brands__badge">Trusted By 250+ Companies</p>
+		<ul class="brands__list">
+			{
+				brands.map((b) => (
+					<li>
+						<img src={b.src} alt={b.name} width={b.width} height="60" loading="lazy" />
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>
+
+<style>
+	.hero__main {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		min-height: clamp(690px, calc(690px + 106 * var(--t)), 796px);
+		padding: clamp(110px, calc(110px + 10 * var(--t)), 120px) 20px 0;
+		overflow: hidden;
+		text-align: center;
+		background:
+			linear-gradient(to bottom, var(--bg) 0%, transparent 25%),
+			var(--dot-pattern);
+		border-bottom: 1px solid var(--border);
+	}
+
+	.hero__title {
+		position: relative;
+		z-index: 1;
+		font-size: var(--fz-display);
+		font-weight: 600;
+		line-height: 1.2;
+	}
+
+	.hero__for {
+		position: relative;
+		z-index: 1;
+		margin-top: clamp(40px, calc(40px + 10 * var(--t)), 50px);
+		padding: clamp(10px, calc(10px + 4 * var(--t)), 14px);
+		padding-left: clamp(30px, calc(30px + 10 * var(--t)), 40px);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-md);
+		background: rgb(25 25 25 / 0.6);
+		color: var(--text-subtle);
+		font-size: var(--fz-h5);
+		line-height: 1.5;
+	}
+
+	.hero__for-desktop {
+		display: flex;
+		align-items: center;
+		gap: clamp(6px, calc(6px + 2 * var(--t)), 8px);
+	}
+
+	.hero__for-mobile {
+		display: none;
+	}
+
+	.hero__chip {
+		padding: clamp(6px, calc(6px + 4 * var(--t)), 10px) clamp(10px, calc(10px + 4 * var(--t)), 14px);
+		border-radius: var(--radius-sm);
+		background: var(--surface);
+		color: var(--text-muted);
+	}
+
+	.hero__actions {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		gap: 14px;
+		margin-top: 50px;
+	}
+
+	/* Wireframe mountain sits on the bottom edge, behind the content */
+	.hero__mountain {
+		position: absolute;
+		left: 50%;
+		bottom: 0;
+		width: min(97%, 1560px);
+		max-width: none;
+		height: auto;
+		transform: translateX(-50%);
+		pointer-events: none;
+	}
+
+	.brands {
+		position: relative;
+	}
+
+	.brands__badge {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		z-index: 1;
+		transform: translate(-50%, -50%);
+		padding: clamp(14px, calc(14px + 4 * var(--t)), 18px) clamp(24px, calc(24px + 10 * var(--t)), 34px);
+		border: 1px solid var(--border);
+		border-radius: 100px;
+		background: var(--bg);
+		font-size: var(--fz-ui);
+		font-weight: 500;
+		white-space: nowrap;
+	}
+
+	.brands__list {
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+		min-height: clamp(130px, calc(130px + 40 * var(--t)), 170px);
+		padding: 30px clamp(20px, calc(20px + 20 * var(--t)), 40px) 20px;
+	}
+
+	.brands__list img {
+		width: auto;
+		height: clamp(44px, calc(44px + 16 * var(--t)), 60px);
+	}
+
+	@media (max-width: 1023px) {
+		.hero__main {
+			min-height: 568px;
+			padding: 80px 16px 0;
+		}
+
+		.hero__for {
+			margin-top: 30px;
+			padding: 14px 24px;
+		}
+
+		.hero__for-desktop {
+			display: none;
+		}
+
+		.hero__for-mobile {
+			display: block;
+		}
+
+		.hero__actions {
+			margin-top: 40px;
+		}
+
+		.hero__mountain {
+			width: 150%;
+			bottom: 0;
+		}
+
+		.brands__badge {
+			font-size: 14px;
+			padding: 14px 24px;
+		}
+
+		/* 2-column grid with internal borders */
+		.brands__list {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			padding: 0;
+		}
+
+		.brands__list li {
+			display: grid;
+			place-items: center;
+			height: 100px;
+			border-bottom: 1px solid var(--border);
+		}
+
+		.brands__list li:nth-child(odd) {
+			border-right: 1px solid var(--border);
+		}
+
+		.brands__list li:nth-last-child(-n + 2) {
+			border-bottom: 0;
+		}
+
+		.brands__list img {
+			height: 44px;
+		}
+	}
+</style>

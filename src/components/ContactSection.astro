@@ -1,0 +1,403 @@
+---
+import Icon from './Icon.astro';
+import SectionBanner from './SectionBanner.astro';
+
+const reasons = ['Web Design', 'Collaboration', 'Mobile App Design', 'Others'];
+const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
+---
+
+<section class="contact" id="contact-form" aria-labelledby="contact-title">
+	<SectionBanner
+		id="contact-title"
+		class="contact__banner"
+		title="Thank you for your Interest in SquareUp."
+		text="We would love to hear from you and discuss how we can help bring your digital ideas to life. Here are the different ways you can get in touch with us."
+	>
+		<img
+			slot="before"
+			class="contact__cube"
+			src="/images/abstract/cube.svg"
+			alt=""
+			width="201"
+			height="200"
+		/>
+		<a href="#contact-fields" class="btn btn-primary contact__start">Start Project</a>
+	</SectionBanner>
+
+	<div class="contact__body">
+		<!-- TODO: submit to Supabase (contact_messages table) -->
+		<form class="form" id="contact-fields" novalidate>
+			<div class="form__row">
+				<label class="field">
+					<span class="field__label">Full Name</span>
+					<input class="field__input" type="text" name="name" placeholder="Type here" autocomplete="name" required />
+				</label>
+				<label class="field">
+					<span class="field__label">Email</span>
+					<input class="field__input" type="email" name="email" placeholder="Type here" autocomplete="email" required />
+				</label>
+			</div>
+
+			<fieldset class="field">
+				<legend class="field__label">Why are you contacting us?</legend>
+				<div class="checks">
+					{
+						reasons.map((r, i) => (
+							<label class="check">
+								<input type="checkbox" name="reasons" value={r} checked={i === 0} />
+								<span class="check__box">
+									<Icon name="check" size={18} />
+								</span>
+								{r}
+							</label>
+						))
+					}
+				</div>
+			</fieldset>
+
+			<fieldset class="field">
+				<legend class="field__label">Your Budget</legend>
+				<p class="field__hint">Slide to indicate your budget range</p>
+				<div
+					class="range"
+					style={`--from: ${(budget.from / budget.max) * 100}%; --to: ${(budget.to / budget.max) * 100}%`}
+				>
+					<div class="range__track"></div>
+					<input
+						type="range"
+						name="budget_min"
+						aria-label="Minimum budget"
+						min={budget.min}
+						max={budget.max}
+						step={budget.step}
+						value={budget.from}
+					/>
+					<input
+						type="range"
+						name="budget_max"
+						aria-label="Maximum budget"
+						min={budget.min}
+						max={budget.max}
+						step={budget.step}
+						value={budget.to}
+					/>
+					<output class="range__label range__label--from">${budget.from}</output>
+					<output class="range__label range__label--to">${budget.to}</output>
+				</div>
+			</fieldset>
+
+			<label class="field">
+				<span class="field__label">Your Message</span>
+				<textarea class="field__input field__textarea" name="message" placeholder="Type here" rows="2"></textarea>
+			</label>
+
+			<button type="submit" class="btn btn-primary form__submit">Submit</button>
+		</form>
+	</div>
+</section>
+
+<script>
+	for (const range of document.querySelectorAll<HTMLElement>('.range')) {
+		const [lo, hi] = range.querySelectorAll<HTMLInputElement>('input[type=range]');
+		const [loLabel, hiLabel] = range.querySelectorAll('output');
+		const max = Number(lo.max);
+
+		const update = (moved: HTMLInputElement) => {
+			// Keep the thumbs from crossing
+			if (Number(lo.value) > Number(hi.value)) {
+				if (moved === lo) lo.value = hi.value;
+				else hi.value = lo.value;
+			}
+			range.style.setProperty('--from', `${(Number(lo.value) / max) * 100}%`);
+			range.style.setProperty('--to', `${(Number(hi.value) / max) * 100}%`);
+			loLabel.textContent = `$${lo.value}`;
+			hiLabel.textContent = `$${hi.value}`;
+		};
+
+		lo.addEventListener('input', () => update(lo));
+		hi.addEventListener('input', () => update(hi));
+	}
+</script>
+
+<style>
+	.contact__banner {
+		min-height: clamp(480px, calc(480px + 117 * var(--t)), 597px);
+	}
+
+	.contact__cube {
+		width: clamp(60px, calc(60px + 20 * var(--t)), 80px);
+		height: auto;
+		margin-bottom: clamp(30px, calc(30px + 16 * var(--t)), 46px);
+		border-radius: 12px;
+		box-shadow: 0 0 40px rgb(158 255 0 / 0.25);
+	}
+
+	.contact__banner :global(.banner__title) {
+		font-size: clamp(28px, calc(28px + 10 * var(--t)), 38px);
+		font-weight: 600;
+	}
+
+	.contact__start {
+		margin-top: clamp(30px, calc(30px + 20 * var(--t)), 50px);
+	}
+
+	.contact__body {
+		display: flex;
+		justify-content: center;
+		border-top: 1px solid var(--border);
+	}
+
+	.form {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(30px, calc(30px + 10 * var(--t)), 40px);
+		width: min(100%, clamp(860px, calc(860px + 200 * var(--t)), 1060px));
+		padding: var(--space-section);
+		border-inline: 1px solid var(--border);
+	}
+
+	.form__row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: clamp(30px, calc(30px + 10 * var(--t)), 40px);
+	}
+
+	.field {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+		padding: clamp(30px, calc(30px + 10 * var(--t)), 40px);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-md);
+		background: rgb(36 36 36 / 0.5);
+	}
+
+	fieldset.field {
+		display: block;
+	}
+
+	.field__label {
+		float: left; /* lets <legend> sit inside the padded box */
+		width: 100%;
+		padding: 0;
+		font-size: var(--fz-h5);
+		font-weight: 500;
+		line-height: 1.5;
+	}
+
+	.field__hint {
+		clear: both;
+		padding-top: 14px;
+		color: var(--text-muted);
+		font-size: var(--fz-body);
+	}
+
+	.field__input {
+		clear: both;
+		width: 100%;
+		margin-top: clamp(20px, calc(20px + 10 * var(--t)), 30px);
+		padding: 0 0 12px;
+		border: 0;
+		border-bottom: 1px solid var(--grey-20);
+		background: none;
+		font-size: var(--fz-body);
+		line-height: 1.5;
+		outline: none;
+		transition: border-color 0.2s;
+	}
+
+	.field__input::placeholder {
+		color: var(--grey-35);
+	}
+
+	.field__input:focus {
+		border-bottom-color: var(--accent);
+	}
+
+	/* Two ruled lines, as in the design */
+	.field__textarea {
+		resize: vertical;
+		line-height: 40px;
+		padding-bottom: 0;
+		background: repeating-linear-gradient(
+			to bottom,
+			transparent 0 39px,
+			var(--grey-20) 39px 40px
+		);
+		border-bottom: 0;
+	}
+
+	.field__textarea:focus {
+		background: repeating-linear-gradient(
+			to bottom,
+			transparent 0 39px,
+			var(--accent) 39px 40px
+		);
+	}
+
+	.checks {
+		clear: both;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 20px clamp(30px, calc(30px + 10 * var(--t)), 40px);
+		padding-top: clamp(30px, calc(30px + 10 * var(--t)), 50px);
+	}
+
+	.check {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		font-size: var(--fz-body);
+		cursor: pointer;
+	}
+
+	.check input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.check__box {
+		display: grid;
+		place-items: center;
+		width: 28px;
+		height: 28px;
+		border-radius: var(--radius-sm);
+		background: var(--surface);
+		color: transparent;
+		transition: color 0.15s;
+	}
+
+	.check input:checked + .check__box {
+		color: var(--accent);
+	}
+
+	.check input:focus-visible + .check__box {
+		outline: 2px solid var(--accent);
+		outline-offset: 2px;
+	}
+
+	/* Dual-thumb budget slider */
+	.range {
+		clear: both;
+		position: relative;
+		height: 70px;
+		margin-top: clamp(30px, calc(30px + 20 * var(--t)), 50px);
+	}
+
+	.range__track {
+		position: absolute;
+		top: 13px;
+		left: 0;
+		right: 0;
+		height: 4px;
+		border-radius: 2px;
+		background: linear-gradient(
+			to right,
+			var(--grey-20) var(--from),
+			var(--accent) var(--from) var(--to),
+			var(--grey-20) var(--to)
+		);
+	}
+
+	.range input {
+		position: absolute;
+		top: 0;
+		left: -15px;
+		width: calc(100% + 30px);
+		height: 30px;
+		margin: 0;
+		background: none;
+		pointer-events: none;
+		appearance: none;
+	}
+
+	.range input::-moz-range-track {
+		background: none;
+	}
+
+	.range input::-webkit-slider-thumb {
+		box-sizing: border-box;
+		width: 30px;
+		height: 30px;
+		border: 7px solid var(--grey-30);
+		border-radius: 50%;
+		background: var(--accent);
+		pointer-events: auto;
+		cursor: grab;
+		appearance: none;
+	}
+
+	.range input::-moz-range-thumb {
+		width: 16px;
+		height: 16px;
+		border: 7px solid var(--grey-30);
+		border-radius: 50%;
+		background: var(--accent);
+		pointer-events: auto;
+		cursor: grab;
+	}
+
+	.range__label {
+		position: absolute;
+		top: 40px;
+		transform: translateX(-50%);
+		font-size: var(--fz-body);
+		font-weight: 500;
+	}
+
+	.range__label--from {
+		left: var(--from);
+	}
+
+	.range__label--to {
+		left: var(--to);
+	}
+
+	.form__submit {
+		align-self: center;
+		padding-inline: 44px;
+	}
+
+	@media (max-width: 1023px) {
+		.contact__banner {
+			min-height: 390px;
+			padding-block: 50px;
+		}
+
+		.contact__banner :global(.banner__title) {
+			font-size: 24px;
+		}
+
+		.contact__cube {
+			width: 50px;
+			margin-bottom: 20px;
+		}
+
+		.contact__start {
+			margin-top: 30px;
+		}
+
+		.form {
+			padding: 24px 24px 24px;
+			gap: 30px;
+		}
+
+		.form__row,
+		.checks {
+			grid-template-columns: 1fr;
+		}
+
+		.checks {
+			gap: 20px;
+		}
+
+		.field {
+			padding: 24px;
+		}
+
+		.form__submit {
+			align-self: stretch;
+		}
+	}
+</style>

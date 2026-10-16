@@ -1,0 +1,73 @@
+---
+/**
+ * The dark header strip that opens each section ("Our Services", "FAQ"...).
+ *
+ * In Figma each banner has its own 3D wave photo with a dark blend overlay.
+ * Until those are exported, `image` is optional and the strip falls back to
+ * a CSS approximation (green glows + the square-dot pattern).
+ */
+interface Props {
+	title: string;
+	text?: string;
+	image?: string;
+	/** Heading level; the first banner on inner pages should be h1 */
+	as?: 'h1' | 'h2';
+	/** id for the heading, for aria-labelledby */
+	id?: string;
+	class?: string;
+}
+
+const { title, text, image, as: Heading = 'h2', id, class: className } = Astro.props;
+---
+
+<div
+	class:list={['banner', className]}
+	style={image ? `--banner-image: url('${image}')` : undefined}
+>
+	<slot name="before" />
+	<Heading id={id} class="banner__title">{title}</Heading>
+	{text && <p class="banner__text">{text}</p>}
+	<slot />
+</div>
+
+<style>
+	.banner {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 14px;
+		min-height: clamp(280px, calc(280px + 56 * var(--t)), 336px);
+		padding: var(--space-section) var(--space-card);
+		overflow: hidden;
+		text-align: center;
+		background:
+			var(--banner-image, none) center / cover no-repeat,
+			radial-gradient(60% 120% at 12% 100%, rgb(158 255 0 / 0.07), transparent 70%),
+			radial-gradient(50% 90% at 85% 0%, rgb(158 255 0 / 0.05), transparent 70%),
+			var(--dot-pattern),
+			#0f0f0f;
+	}
+
+	.banner__title {
+		font-size: var(--fz-h2);
+		font-weight: 600;
+		line-height: 1.2;
+	}
+
+	.banner__text {
+		max-width: 1000px;
+		color: var(--text-muted);
+		font-size: var(--fz-body);
+		line-height: 1.5;
+	}
+
+	@media (max-width: 1023px) {
+		.banner {
+			min-height: 190px;
+			gap: 10px;
+			padding: 40px 24px;
+		}
+	}
+</style>

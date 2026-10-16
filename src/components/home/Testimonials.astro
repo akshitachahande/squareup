@@ -1,0 +1,147 @@
+---
+import SectionBanner from '../SectionBanner.astro';
+import { testimonials } from '../../data/home';
+---
+
+<section aria-labelledby="testimonials-title">
+	<SectionBanner
+		id="testimonials-title"
+		title="What our Clients say About us"
+		text="At SquareUp, we take pride in delivering exceptional digital products and services that drive success for our clients. Here's what some of our satisfied clients have to say about their experience working with us"
+	/>
+
+	<ul class="testimonials">
+		{
+			testimonials.map((t) => (
+				<li class="testimonial">
+					<blockquote>
+						<h3 class="testimonial__title">{t.title}</h3>
+						<p class="testimonial__text">{t.text}</p>
+					</blockquote>
+					<div class="author">
+						<img class="author__avatar" src={t.avatar} alt="" width="60" height="60" loading="lazy" />
+						<div class="author__info">
+							<p class="author__name">{t.name}</p>
+							<p class="author__role">{t.role}</p>
+						</div>
+						<a href={t.href} class="btn btn-secondary author__link">
+							Open Website<span class="sr-only"> of {t.role}</span>
+						</a>
+					</div>
+				</li>
+			))
+		}
+	</ul>
+</section>
+
+<style>
+	.testimonials {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.testimonial {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: clamp(30px, calc(30px + 10 * var(--t)), 40px);
+		padding: var(--space-section) var(--space-section) clamp(80px, calc(80px + 20 * var(--t)), 100px);
+	}
+
+	.testimonial:nth-child(even) {
+		border-left: 1px solid var(--border);
+	}
+
+	.testimonial:nth-child(n + 3) {
+		border-top: 1px solid var(--border);
+	}
+
+	/* Push the quote down a little, as in the design */
+	blockquote {
+		padding-top: clamp(20px, calc(20px + 20 * var(--t)), 40px);
+	}
+
+	.testimonial__title {
+		color: var(--green-80);
+		font-size: var(--fz-h4);
+		font-weight: 500;
+		line-height: 1.5;
+	}
+
+	.testimonial__text {
+		margin-top: clamp(14px, calc(14px + 6 * var(--t)), 20px);
+		color: var(--text-muted);
+		font-size: var(--fz-body);
+		line-height: 1.5;
+	}
+
+	.author {
+		display: flex;
+		align-items: center;
+		gap: clamp(12px, calc(12px + 4 * var(--t)), 16px);
+		padding: clamp(12px, calc(12px + 7 * var(--t)), 19px);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-md);
+		background: rgb(35 35 35 / 0.2);
+	}
+
+	.author__avatar {
+		width: clamp(50px, calc(50px + 10 * var(--t)), 60px);
+		height: clamp(50px, calc(50px + 10 * var(--t)), 60px);
+		border-radius: var(--radius-sm);
+		object-fit: cover;
+	}
+
+	.author__info {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.author__name {
+		font-size: clamp(16px, calc(16px + 4 * var(--t)), 20px);
+		font-weight: 500;
+		line-height: 1.5;
+	}
+
+	.author__role {
+		color: var(--text-subtle);
+		font-size: var(--fz-ui);
+		line-height: 1.5;
+	}
+
+	@media (max-width: 1023px) {
+		.testimonials {
+			grid-template-columns: 1fr;
+		}
+
+		.testimonial {
+			padding: 50px 24px;
+		}
+
+		.testimonial:nth-child(even) {
+			border-left: 0;
+		}
+
+		.testimonial + .testimonial {
+			border-top: 1px solid var(--border);
+		}
+
+		blockquote {
+			padding-top: 0;
+		}
+
+		.author__avatar {
+			width: 40px;
+			height: 40px;
+		}
+
+		.author__name {
+			font-size: 16px;
+		}
+
+		/* Hidden on mobile in the design */
+		.author__link {
+			display: none;
+		}
+	}
+</style>

@@ -1,0 +1,209 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { footerLinks, site, socialLinks } from '../data/site';
+
+const contacts = [
+	{ icon: 'mail', label: site.email, href: `mailto:${site.email}` },
+	{ icon: 'phone', label: site.phone, href: `tel:${site.phone.replace(/\s/g, '')}` },
+	{ icon: 'map-pin', label: site.location },
+] as const;
+---
+
+<footer class="footer">
+	<div class="container">
+		<div class="footer__top">
+			<Logo class="footer__logo" />
+
+			<nav aria-label="Footer">
+				<ul class="footer__links">
+					{
+						footerLinks.map((link) => (
+							<li>
+								<a href={link.href}>{link.label}</a>
+							</li>
+						))
+					}
+				</ul>
+			</nav>
+
+			<div class="footer__social">
+				<p>Stay Connected</p>
+				<ul>
+					{
+						socialLinks.map((s) => (
+							<li>
+								<a href={s.href} class="tile footer__social-btn" aria-label={s.label}>
+									<Icon name={s.icon} />
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</div>
+
+		<div class="footer__bottom">
+			<ul class="footer__contacts">
+				{
+					contacts.map((c) => {
+						const Tag = 'href' in c ? 'a' : 'span';
+						return (
+							<li>
+								<Tag href={'href' in c ? c.href : undefined}>
+									<Icon name={c.icon} size={24} class="footer__contact-icon" />
+									{c.label}
+								</Tag>
+							</li>
+						);
+					})
+				}
+			</ul>
+			<p class="footer__copy">{site.copyright}</p>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.footer {
+		border-top: 1px solid var(--border);
+		font-size: var(--fz-ui);
+	}
+
+	.footer__top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 30px;
+		padding-block: clamp(40px, calc(40px + 10 * var(--t)), 50px);
+		border-bottom: 1px solid var(--border);
+	}
+
+	.footer__links {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: clamp(20px, calc(20px + 10 * var(--t)), 30px);
+	}
+
+	.footer__links a,
+	.footer__contacts a,
+	.footer__contacts span {
+		transition: color 0.2s;
+	}
+
+	.footer__links a:hover,
+	.footer__contacts a:hover {
+		color: var(--accent);
+	}
+
+	.footer__social {
+		display: flex;
+		align-items: center;
+		gap: clamp(14px, calc(14px + 6 * var(--t)), 20px);
+		padding: 10px 10px 10px 20px;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+	}
+
+	.footer__social ul {
+		display: flex;
+		gap: clamp(10px, calc(10px + 4 * var(--t)), 14px);
+	}
+
+	.footer__social-btn {
+		width: clamp(52px, calc(52px + 12 * var(--t)), 64px);
+		height: clamp(52px, calc(52px + 12 * var(--t)), 64px);
+		border-radius: var(--radius);
+		transition: background-color 0.2s;
+	}
+
+	.footer__social-btn:hover {
+		background-color: var(--grey-20);
+	}
+
+	.footer__bottom {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 30px;
+		padding-block: clamp(40px, calc(40px + 10 * var(--t)), 50px);
+	}
+
+	.footer__contacts {
+		display: flex;
+		flex-wrap: wrap;
+		gap: clamp(20px, calc(20px + 10 * var(--t)), 30px);
+	}
+
+	.footer__contacts :is(a, span) {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding-bottom: 14px;
+		border-bottom: 1px solid var(--border);
+		line-height: 1.5;
+	}
+
+	.footer__contacts :global(.footer__contact-icon) {
+		color: var(--accent);
+	}
+
+	.footer__copy {
+		color: var(--text-subtle);
+	}
+
+	@media (max-width: 1023px) {
+		.footer__top,
+		.footer__bottom {
+			flex-direction: column;
+			gap: 0;
+			padding-block: 0;
+			border-bottom: 0;
+			text-align: center;
+		}
+
+		.footer__top :global(.footer__logo) {
+			padding-block: 30px;
+		}
+
+		.footer__top nav {
+			align-self: stretch;
+			padding-block: 30px;
+			border-top: 1px solid var(--border);
+		}
+
+		.footer__links {
+			gap: 14px 20px;
+			font-size: 16px;
+		}
+
+		.footer__social {
+			flex-direction: column;
+			align-self: stretch;
+			gap: 14px;
+			padding: 20px;
+			font-size: 16px;
+		}
+
+		.footer__bottom {
+			padding-top: 30px;
+		}
+
+		.footer__contacts {
+			flex-direction: column;
+			gap: 0;
+			width: 100%;
+			font-size: 18px;
+		}
+
+		.footer__contacts :is(a, span) {
+			justify-content: center;
+			padding-block: 20px;
+		}
+
+		.footer__copy {
+			padding-block: 20px 30px;
+		}
+	}
+</style>

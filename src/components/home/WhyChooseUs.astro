@@ -1,0 +1,112 @@
+---
+import Icon from '../Icon.astro';
+import SectionBanner from '../SectionBanner.astro';
+import { reasons } from '../../data/home';
+---
+
+<section aria-labelledby="why-title">
+	<SectionBanner
+		id="why-title"
+		title="Why Choose SquareUp?"
+		text="Experience excellence in digital craftsmanship with our team of skilled professionals dedicated to delivering exceptional results."
+	/>
+
+	<ul class="reasons">
+		{
+			reasons.map((r) => (
+				<li class="reason">
+					<div class="reason__head">
+						<span class="tile reason__icon">
+							<Icon name={r.icon} size={34} />
+						</span>
+						<h3 class="reason__title">{r.title}</h3>
+					</div>
+					<p class="reason__text">{r.text}</p>
+				</li>
+			))
+		}
+	</ul>
+</section>
+
+<style>
+	.reasons {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.reason {
+		padding: var(--space-section);
+	}
+
+	.reason:nth-child(even) {
+		border-left: 1px solid var(--border);
+	}
+
+	.reason:nth-child(n + 3) {
+		border-top: 1px solid var(--border);
+	}
+
+	.reason__head {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+	}
+
+	.reason__icon {
+		width: clamp(70px, calc(70px + 18 * var(--t)), 88px);
+		height: clamp(70px, calc(70px + 18 * var(--t)), 88px);
+	}
+
+	.reason__title {
+		font-size: clamp(20px, calc(20px + 4 * var(--t)), 24px);
+		font-weight: 500;
+		line-height: 1.5;
+	}
+
+	.reason__text {
+		margin-top: clamp(30px, calc(30px + 20 * var(--t)), 50px);
+		color: var(--text-muted);
+		font-size: var(--fz-lead);
+		line-height: 1.5;
+	}
+
+	@media (max-width: 1023px) {
+		.reasons {
+			grid-template-columns: 1fr;
+		}
+
+		.reason {
+			padding: 50px 30px;
+		}
+
+		.reason:nth-child(even) {
+			border-left: 0;
+		}
+
+		.reason + .reason {
+			border-top: 1px solid var(--border);
+		}
+
+		.reason__head {
+			gap: 14px;
+		}
+
+		.reason__icon {
+			width: 58px;
+			height: 58px;
+		}
+
+		.reason__icon :global(svg) {
+			width: 28px;
+			height: 28px;
+		}
+
+		.reason__title {
+			font-size: 20px;
+		}
+
+		.reason__text {
+			margin-top: 30px;
+		}
+	}
+</style>

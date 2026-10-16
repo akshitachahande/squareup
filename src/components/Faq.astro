@@ -1,0 +1,181 @@
+---
+import Icon from './Icon.astro';
+import SectionBanner from './SectionBanner.astro';
+import { faqs } from '../data/faqs';
+import { site } from '../data/site';
+
+const half = Math.ceil(faqs.length / 2);
+const columns = [faqs.slice(0, half), faqs.slice(half)];
+---
+
+<section class="faq" aria-labelledby="faq-title">
+	<SectionBanner id="faq-title" title="Frequently Asked Questions">
+		<p class="faq__intro">
+			Still you have any questions? Contact our Team via <a href={`mailto:${site.email}`}>{site.email}</a>
+		</p>
+	</SectionBanner>
+
+	<div class="faq__grid">
+		{
+			columns.map((items, col) => (
+				<div class="faq__col">
+					{items.map((item, i) => {
+						const n = col * half + i + 1;
+						return (
+							<details class="faq__item" name="faq" open={n === 1}>
+								<summary>
+									<span class="tile faq__num">{String(n).padStart(2, '0')}</span>
+									<span class="faq__q">{item.question}</span>
+									<span class="faq__icon">
+										<Icon name="plus" size={30} class="faq__plus" />
+										<Icon name="x" size={30} class="faq__x" />
+									</span>
+								</summary>
+								<p class="faq__a">{item.answer}</p>
+							</details>
+						);
+					})}
+				</div>
+			))
+		}
+	</div>
+</section>
+
+<style>
+	.faq__intro {
+		color: var(--text-muted);
+		font-size: var(--fz-body);
+	}
+
+	.faq__intro a:hover {
+		color: var(--accent);
+	}
+
+	.faq__grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
+
+	/* Empty band above the questions, as in the design */
+	.faq__col {
+		padding-top: var(--space-section);
+	}
+
+	.faq__col + .faq__col {
+		border-left: 1px solid var(--border);
+	}
+
+	.faq__item {
+		border-top: 1px solid var(--border);
+	}
+
+	.faq__item:last-child {
+		border-bottom: 1px solid var(--border);
+	}
+
+	.faq__item {
+		--num: clamp(60px, calc(60px + 20 * var(--t)), 80px);
+		--gap: clamp(24px, calc(24px + 6 * var(--t)), 30px);
+		--py: clamp(24px, calc(24px + 10 * var(--t)), 34px);
+	}
+
+	summary {
+		display: flex;
+		align-items: center;
+		gap: var(--gap);
+		padding: var(--py) var(--space-card);
+		cursor: pointer;
+		list-style: none;
+	}
+
+	summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.faq__num {
+		width: var(--num);
+		height: var(--num);
+		color: var(--text);
+		font-size: clamp(24px, calc(24px + 6 * var(--t)), 30px);
+		font-weight: 600;
+	}
+
+	.faq__q {
+		flex: 1;
+		font-size: var(--fz-h5);
+		font-weight: 500;
+		line-height: 1.5;
+	}
+
+	.faq__icon {
+		flex: none;
+		color: var(--text);
+	}
+
+	.faq__icon :global(.faq__x),
+	.faq__item[open] .faq__icon :global(.faq__plus) {
+		display: none;
+	}
+
+	.faq__item[open] .faq__icon :global(.faq__x) {
+		display: block;
+	}
+
+	.faq__item[open] :is(.faq__num, .faq__q, .faq__icon) {
+		color: var(--accent);
+	}
+
+	/* Answer lines up under the question text */
+	.faq__a {
+		margin-top: calc(var(--py) * -0.5);
+		padding: 0 calc(var(--space-card) + 30px + var(--gap)) var(--py)
+			calc(var(--space-card) + var(--num) + var(--gap));
+		color: var(--text-muted);
+		font-size: var(--fz-body);
+		line-height: 1.5;
+	}
+
+	summary:hover .faq__q {
+		color: var(--green-60);
+	}
+
+	@media (max-width: 1023px) {
+		.faq__grid {
+			grid-template-columns: 1fr;
+		}
+
+		.faq__col {
+			padding-top: 0;
+		}
+
+		.faq__col + .faq__col {
+			border-left: 0;
+		}
+
+		.faq__col:first-child .faq__item:first-child {
+			border-top: 0;
+		}
+
+		.faq__col:first-child .faq__item:last-child {
+			border-bottom: 0;
+		}
+
+		.faq__item {
+			--num: 52px;
+			--gap: 20px;
+			--py: 30px;
+		}
+
+		summary {
+			padding-inline: 24px;
+		}
+
+		.faq__num {
+			font-size: 20px;
+		}
+
+		.faq__a {
+			padding-inline: 24px;
+		}
+	}
+</style>

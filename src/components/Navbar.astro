@@ -1,0 +1,165 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { contactLink, navLinks } from '../data/site';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+
+<header class="navbar">
+	<div class="container navbar__inner">
+		<Logo />
+
+		<nav class="navbar__nav" id="site-nav" aria-label="Main">
+			<ul class="navbar__links">
+				{
+					navLinks.map((link) => (
+						<li>
+							<a
+								href={link.href}
+								class="navbar__link"
+								aria-current={isActive(link.href) ? 'page' : undefined}
+							>
+								{link.label}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+			<a href={contactLink.href} class="btn btn-primary navbar__cta">Contact Us</a>
+		</nav>
+
+		<button
+			class="navbar__toggle"
+			type="button"
+			aria-controls="site-nav"
+			aria-expanded="false"
+			aria-label="Open menu"
+		>
+			<Icon name="menu" size={30} class="navbar__toggle-open" />
+			<Icon name="x" size={30} class="navbar__toggle-close" />
+		</button>
+	</div>
+</header>
+
+<script>
+	const toggle = document.querySelector<HTMLButtonElement>('.navbar__toggle');
+	const nav = document.getElementById('site-nav');
+
+	toggle?.addEventListener('click', () => {
+		const open = toggle.getAttribute('aria-expanded') !== 'true';
+		toggle.setAttribute('aria-expanded', String(open));
+		toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+		nav?.classList.toggle('is-open', open);
+	});
+</script>
+
+<style>
+	.navbar {
+		position: relative;
+		z-index: 10;
+		border-bottom: 1px solid var(--border);
+		background: var(--bg);
+	}
+
+	/* logo | links (true centre) | CTA */
+	.navbar__inner {
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
+		align-items: center;
+		height: var(--nav-h);
+	}
+
+	.navbar__nav {
+		display: contents;
+	}
+
+	.navbar__links {
+		display: flex;
+		gap: clamp(6px, calc(6px + 4 * var(--t)), 10px);
+	}
+
+	.navbar__cta {
+		justify-self: end;
+	}
+
+	.navbar__link {
+		display: block;
+		padding: clamp(12px, calc(12px + 2 * var(--t)), 14px) clamp(16px, calc(16px + 4 * var(--t)), 20px);
+		border-radius: var(--radius);
+		font-size: var(--fz-ui);
+		line-height: 1.5;
+		color: var(--text);
+		transition: background-color 0.2s;
+	}
+
+	.navbar__link:hover {
+		background: rgb(38 38 38 / 0.5);
+	}
+
+	.navbar__link[aria-current='page'] {
+		padding-inline: clamp(22px, calc(22px + 8 * var(--t)), 30px);
+		background: var(--surface);
+		font-weight: 500;
+	}
+
+	.navbar__toggle {
+		display: none;
+	}
+
+	@media (max-width: 1023px) {
+		.navbar__inner {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.navbar__toggle {
+			display: grid;
+			place-items: center;
+			width: 46px;
+			height: 46px;
+			border-radius: var(--radius-sm);
+			background: var(--surface);
+			color: var(--accent);
+		}
+
+		.navbar__toggle :global(.navbar__toggle-close),
+		.navbar__toggle[aria-expanded='true'] :global(.navbar__toggle-open) {
+			display: none;
+		}
+
+		.navbar__toggle[aria-expanded='true'] :global(.navbar__toggle-close) {
+			display: block;
+		}
+
+		/* Dropdown panel (not in the Figma file; styled to match) */
+		.navbar__nav {
+			position: absolute;
+			top: 100%;
+			left: 0;
+			right: 0;
+			display: none;
+			flex-direction: column;
+			align-items: stretch;
+			gap: 16px;
+			padding: 20px var(--pad) 30px;
+			border-bottom: 1px solid var(--border);
+			background: var(--bg);
+		}
+
+		.navbar__nav.is-open {
+			display: flex;
+		}
+
+		.navbar__links {
+			flex-direction: column;
+			gap: 4px;
+		}
+
+		.navbar__link,
+		.navbar__link[aria-current='page'] {
+			padding: 14px 20px;
+		}
+	}
+</style>

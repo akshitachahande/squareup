@@ -1,0 +1,30 @@
+---
+interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<a href="/" class:list={['logo', className]} aria-label="SquareUp home">
+	<img src="/images/logo.svg" alt="" width="178" height="60" />
+</a>
+
+<style>
+	.logo {
+		display: block;
+		flex: none;
+		height: clamp(40px, calc(40px + 20 * var(--t)), 60px);
+	}
+
+	.logo img {
+		width: auto;
+		height: 100%;
+	}
+
+	@media (max-width: 1023px) {
+		.logo {
+			height: 40px;
+		}
+	}
+</style>
