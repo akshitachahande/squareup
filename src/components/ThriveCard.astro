@@ -1,0 +1,189 @@
+---
+/**
+ * "Today, SquareUp Continues to Thrive..." closing card with the welcome bar
+ * and Start Project button. Ends the About and Careers pages.
+ */
+---
+
+<section class="today" aria-labelledby="today-title">
+	<div class="today__intro">
+		<img class="today__cube" src="/images/abstract/cube.svg" alt="" width="201" height="200" />
+		<div>
+			<h2 id="today-title" class="today__title">
+				Today, SquareUp Continues to Thrive as a Leading Digital Product Agency.....
+			</h2>
+			<p class="today__text">
+				Combining the power of design, engineering, and project management to create transformative
+				digital experiences. They invite you to join them on their journey and discover how they can help
+				bring your digital ideas to life.
+			</p>
+		</div>
+	</div>
+
+	<div class="today__bar">
+		<p class="today__welcome">Welcome to SquareUp</p>
+		<p class="today__quote">
+			Where collaboration, Expertise, and Client-Centricity Intersect to Shape the Future of Digital
+			Innovation.
+		</p>
+		<a href="/contact#contact-fields" class="btn btn-primary today__start">Start Project</a>
+	</div>
+</section>
+
+<style>
+	.today {
+		padding: 80px;
+		border-top: 1px solid var(--border);
+	}
+
+	.today__intro {
+		display: flex;
+		align-items: center;
+		gap: 40px;
+	}
+
+	.today__cube {
+		flex: none;
+		width: 150px;
+		height: auto;
+		border-radius: 20px;
+		box-shadow: 0 0 40px rgb(158 255 0 / 0.25);
+	}
+
+	.today__title {
+		color: var(--text-subtle);
+		font-size: 30px;
+		font-weight: 500;
+		line-height: 1.5;
+	}
+
+	.today__text {
+		margin-top: 10px;
+		color: var(--text-subtle);
+		font-size: 18px;
+		line-height: 1.5;
+	}
+
+	.today__bar {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+		margin-top: 50px;
+		padding: 24px 40px;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+		background: #1a1a1a;
+	}
+
+	.today__welcome {
+		flex: none;
+		color: var(--text-subtle);
+		font-size: 20px;
+	}
+
+	.today__quote {
+		flex: 1;
+		padding: 14px 20px;
+		border-radius: var(--radius);
+		background: var(--surface);
+		font-size: 20px;
+		line-height: 1.5;
+	}
+
+	.today__start {
+		margin-left: 20px;
+		padding: 18px 34px;
+	}
+
+	/* Laptop (1440 frame) */
+	@media (max-width: 1799px) {
+		.today {
+			padding: 60px;
+		}
+
+		.today__intro {
+			gap: 30px;
+		}
+
+		.today__cube {
+			width: 100px;
+			border-radius: 14px;
+		}
+
+		.today__title {
+			font-size: 24px;
+		}
+
+		.today__text {
+			margin-top: 6px;
+			font-size: 18px;
+		}
+
+		.today__bar {
+			gap: 16px;
+			margin-top: 40px;
+			padding: 20px 30px;
+		}
+
+		.today__welcome {
+			font-size: 18px;
+		}
+
+		.today__quote {
+			padding: 10px 14px;
+			font-size: 16px;
+		}
+
+		.today__start {
+			padding: 14px 20px;
+		}
+	}
+
+	/* Mobile (390 frame) */
+	@media (max-width: 1023px) {
+		.today {
+			padding: 40px 24px;
+			text-align: center;
+		}
+
+		.today__intro {
+			flex-direction: column;
+			gap: 20px;
+		}
+
+		.today__cube {
+			width: 80px;
+			border-radius: 12px;
+		}
+
+		.today__title {
+			font-size: 20px;
+			line-height: 1.2;
+		}
+
+		.today__text {
+			font-size: 14px;
+		}
+
+		.today__welcome {
+			font-size: 18px;
+		}
+
+		.today__bar {
+			flex-direction: column;
+			align-items: stretch;
+			gap: 20px;
+			margin-top: 30px;
+			padding: 20px;
+		}
+
+		.today__quote {
+			padding: 14px 20px;
+			font-size: 16px;
+		}
+
+		.today__start {
+			margin-left: 0;
+		}
+	}
+</style>

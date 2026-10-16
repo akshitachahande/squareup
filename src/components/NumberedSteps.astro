@@ -1,0 +1,142 @@
+---
+/**
+ * Two-column grid of big green numbers with a ruled title and a paragraph.
+ * Used for the Process steps and the About "Our Story" chapters.
+ */
+interface Props {
+	steps: { title: string; text: string }[];
+	/** Title colour: grey on Process, green on About */
+	tone?: 'subtle' | 'accent';
+}
+
+const { steps, tone = 'subtle' } = Astro.props;
+---
+
+<ol class:list={['steps', `steps--${tone}`]}>
+	{
+		steps.map((step, i) => (
+			<li class="step">
+				<div class="step__head">
+					<span class="step__num" aria-hidden="true">
+						{String(i + 1).padStart(2, '0')}
+					</span>
+					<h3 class="step__title">{step.title}</h3>
+				</div>
+				<p class="step__text">{step.text}</p>
+			</li>
+		))
+	}
+</ol>
+
+<style>
+	.steps {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.step {
+		padding: 85px var(--space-card) 100px;
+		border-top: 1px solid var(--border);
+	}
+
+	.step:nth-child(even) {
+		border-left: 1px solid var(--border);
+	}
+
+	/* The title's rule sits on the number's baseline */
+	.step__head {
+		display: flex;
+		align-items: flex-end;
+		gap: 20px;
+	}
+
+	.step__num {
+		flex: none;
+		color: var(--green-80);
+		font-size: 150px;
+		font-weight: 600;
+		/* Makes the box bottom land on the baseline */
+		line-height: 0.8;
+	}
+
+	.step__title {
+		flex: 1;
+		padding: 0 0 20px 10px;
+		border-bottom: 1px solid var(--border);
+		color: var(--text-subtle);
+		font-size: 28px;
+		font-weight: 500;
+		line-height: 1.5;
+	}
+
+	.steps--accent .step__title {
+		color: var(--green-80);
+		font-weight: 600;
+	}
+
+	.step__text {
+		margin-top: 50px;
+		color: var(--text-subtle);
+		font-size: 18px;
+		line-height: 1.5;
+	}
+
+	/* Laptop (1440 frame) */
+	@media (max-width: 1799px) {
+		.step {
+			padding: 67px var(--space-card) 80px;
+		}
+
+		.step__head {
+			gap: 16px;
+		}
+
+		.step__num {
+			font-size: 120px;
+		}
+
+		.step__title {
+			padding-bottom: 16px;
+			font-size: 22px;
+		}
+
+		.step__text {
+			margin-top: 40px;
+			font-size: 16px;
+		}
+	}
+
+	/* Mobile (390 frame) */
+	@media (max-width: 1023px) {
+		.steps {
+			grid-template-columns: 1fr;
+		}
+
+		.step {
+			padding: 31px 24px 40px;
+		}
+
+		.step:nth-child(even) {
+			border-left: 0;
+		}
+
+		.step__head {
+			gap: 12px;
+		}
+
+		.step__num {
+			font-size: 80px;
+			font-weight: 500;
+		}
+
+		.step__title {
+			padding-bottom: 10px;
+			font-size: 20px;
+		}
+
+		.step__text {
+			margin-top: 30px;
+			font-size: 14px;
+		}
+	}
+</style>
