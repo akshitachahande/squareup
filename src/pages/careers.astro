@@ -1,0 +1,272 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import PageIntro from '../components/PageIntro.astro';
+import SectionBanner from '../components/SectionBanner.astro';
+import ThriveCard from '../components/ThriveCard.astro';
+import { benefits, jobGroups } from '../data/careers';
+
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z]+/g, '-');
+---
+
+<BaseLayout
+	title="Careers"
+	description="Join the SquareUp team. Open design, development, management and QA roles."
+>
+	<SectionBanner
+		as="h1"
+		title="Join Our Team at SquareUp"
+		image="/images/banners/faq.webp"
+		text="Unlock your potential and join our team of innovators and problem solvers."
+	/>
+
+	<section class="why" aria-labelledby="why-title">
+		<PageIntro
+			id="why-title"
+			title="Welcome to SquareUp, where talent meets opportunity!"
+			text="At SquareUp, we believe that the success of our agency lies in the talent, passion, and dedication of our team members. We are a digital product agency that thrives on innovation, creativity, and collaboration. If you're ready to make a difference and contribute to cutting-edge projects, we invite you to explore career opportunities with us."
+			label="Why Work at SquareUp?"
+		/>
+
+		<ul class="benefits">
+			{
+				benefits.map((b) => (
+					<li class="benefit">
+						<h3 class="benefit__title">{b.title}</h3>
+						<p class="benefit__text">{b.text}</p>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<section class="openings" aria-labelledby="openings-title">
+		<PageIntro
+			id="openings-title"
+			title="Current Openings"
+			text="We are always on the lookout for talented individuals who are passionate about creating exceptional digital experiences. Whether you're a designer, engineer, project manager, or have skills that align with our agency's mission, we encourage you to explore our open positions."
+		/>
+
+		{
+			jobGroups.map((group) => (
+				<div class="group" aria-labelledby={slug(group.title)}>
+					<h3 id={slug(group.title)} class="group__title">
+						{group.title}
+					</h3>
+					<ul class="jobs">
+						{group.jobs.map((job) => (
+							<li class="job">
+								<span class="tile job__icon">
+									<Icon name={job.icon} size={34} />
+								</span>
+								<h4 class="job__title">{job.title}</h4>
+								<p class="job__text">{job.text}</p>
+								<a href="/contact" class="btn btn-secondary job__apply">
+									Apply Now<span class="sr-only"> for {job.title.replace(/\s+-\s+/, '-')}</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			))
+		}
+	</section>
+
+	<ThriveCard />
+</BaseLayout>
+
+<style>
+	.why,
+	.openings {
+		border-top: 1px solid var(--border);
+	}
+
+	/* Why Work at SquareUp */
+	.benefits {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.benefit {
+		padding: 104px var(--space-card) 100px;
+		border-top: 1px solid var(--border);
+	}
+
+	.benefit:nth-child(even) {
+		border-left: 1px solid var(--border);
+	}
+
+	.benefit__title {
+		padding-bottom: 46px;
+		border-bottom: 1px solid var(--border);
+		color: var(--green-80);
+		font-size: 40px;
+		font-weight: 500;
+		line-height: 1.5;
+	}
+
+	.benefit__text {
+		margin-top: 50px;
+		color: var(--text-subtle);
+		font-size: 18px;
+		line-height: 1.5;
+	}
+
+	/* Current Openings */
+	.group__title {
+		padding: 45px var(--space-card);
+		border-top: 1px solid var(--border);
+		color: var(--text-subtle);
+		font-size: 28px;
+		font-weight: 500;
+		line-height: 1.5;
+	}
+
+	.jobs {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		border-top: 1px solid var(--border);
+	}
+
+	.job {
+		display: flex;
+		flex-direction: column;
+		padding: var(--space-card);
+	}
+
+	.job + .job {
+		border-left: 1px solid var(--border);
+	}
+
+	.job__icon {
+		width: 88px;
+		height: 88px;
+	}
+
+	.job__title {
+		margin-top: 30px;
+		font-size: 24px;
+		font-weight: 500;
+		line-height: 1.5;
+	}
+
+	.job__text {
+		flex: 1;
+		margin-top: 20px;
+		color: var(--text-muted);
+		font-size: 18px;
+		line-height: 1.5;
+	}
+
+	.job__apply {
+		margin-top: 30px;
+		padding-block: 19px;
+	}
+
+	/* Laptop (1440 frame) */
+	@media (max-width: 1799px) {
+		.benefit {
+			padding: 84px var(--space-card) 80px;
+		}
+
+		.benefit__title {
+			padding-bottom: 38px;
+			font-size: 30px;
+		}
+
+		.benefit__text {
+			margin-top: 30px;
+			font-size: 16px;
+		}
+
+		.group__title {
+			padding: 36px var(--space-card);
+			font-size: 22px;
+		}
+
+		.job__icon {
+			width: 74px;
+			height: 74px;
+		}
+
+		.job__icon :global(svg) {
+			width: 30px;
+			height: 30px;
+		}
+
+		.job__title {
+			margin-top: 24px;
+			font-size: 20px;
+		}
+
+		.job__text {
+			margin-top: 14px;
+			font-size: 16px;
+		}
+
+		.job__apply {
+			padding-block: 17px;
+		}
+	}
+
+	/* Mobile (390 frame) */
+	@media (max-width: 1023px) {
+		.benefits,
+		.jobs {
+			grid-template-columns: 1fr;
+		}
+
+		.benefit {
+			padding: 40px 24px;
+		}
+
+		.benefit:nth-child(even) {
+			border-left: 0;
+		}
+
+		.benefit__title {
+			padding-bottom: 18px;
+			font-size: 24px;
+			line-height: 1.4;
+		}
+
+		.benefit__text {
+			margin-top: 20px;
+			font-size: 14px;
+		}
+
+		.group__title {
+			padding: 37px 24px;
+			text-align: center;
+			font-size: 20px;
+		}
+
+		.job {
+			padding: 24px;
+		}
+
+		.job + .job {
+			border-left: 0;
+			border-top: 1px solid var(--border);
+		}
+
+		.job__icon {
+			width: 56px;
+			height: 56px;
+		}
+
+		.job__icon :global(svg) {
+			width: 26px;
+			height: 26px;
+		}
+
+		.job__title {
+			margin-top: 25px;
+		}
+
+		.job__text {
+			margin-top: 15px;
+			font-size: 14px;
+		}
+	}
+</style>
