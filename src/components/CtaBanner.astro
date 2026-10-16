@@ -1,0 +1,79 @@
+---
+/**
+ * The tall wave banner with the green cube and "Start Project" button.
+ * Closes most pages ("Let us Bring your Ideas to Life...") and opens the
+ * contact form section.
+ */
+import SectionBanner from './SectionBanner.astro';
+
+interface Props {
+	title?: string;
+	text?: string;
+	href?: string;
+	id?: string;
+	class?: string;
+}
+
+const {
+	title = 'Let us Bring your Ideas to Life in the Digital World.',
+	text = 'No matter which services you choose, we are committed to delivering exceptional results that exceed your expectations. Our multidisciplinary team works closely together to ensure seamless collaboration and a unified vision for your digital product.',
+	href = '/contact#contact-fields',
+	id,
+	class: className,
+} = Astro.props;
+---
+
+<SectionBanner id={id} class:list={['cta', className]} title={title} text={text} image="/images/banners/cta.webp">
+	<img
+		slot="before"
+		class="cta__cube"
+		src="/images/abstract/cube.svg"
+		alt=""
+		width="201"
+		height="200"
+	/>
+	<a href={href} class="btn btn-primary cta__start">Start Project</a>
+</SectionBanner>
+
+<style>
+	.cta {
+		min-height: clamp(480px, calc(480px + 117 * var(--t)), 597px);
+	}
+
+	.cta__cube {
+		width: clamp(60px, calc(60px + 20 * var(--t)), 80px);
+		height: auto;
+		margin-bottom: clamp(30px, calc(30px + 16 * var(--t)), 46px);
+		border-radius: 12px;
+		box-shadow: 0 0 40px rgb(158 255 0 / 0.25);
+	}
+
+	.cta :global(.banner__title) {
+		font-size: clamp(28px, calc(28px + 10 * var(--t)), 38px);
+		font-weight: 500;
+	}
+
+	.cta__start {
+		margin-top: clamp(30px, calc(30px + 20 * var(--t)), 50px);
+	}
+
+	@media (max-width: 1023px) {
+		.cta {
+			min-height: 390px;
+			padding-block: 50px;
+		}
+
+		.cta :global(.banner__title) {
+			font-size: 24px;
+		}
+
+		.cta__cube {
+			width: 50px;
+			margin-bottom: 20px;
+		}
+
+		.cta__start {
+			margin-top: 30px;
+		}
+	}
+</style>

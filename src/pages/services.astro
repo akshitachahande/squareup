@@ -1,0 +1,177 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import Icon from '../components/Icon.astro';
+import SectionBanner from '../components/SectionBanner.astro';
+import { serviceAreas } from '../data/services';
+---
+
+<BaseLayout
+	title="Services"
+	description="Design, engineering and project management services from SquareUp, a digital product studio."
+>
+	<SectionBanner
+		as="h1"
+		title="Our Services"
+		image="/images/banners/services.webp"
+		text="Transform your brand with our innovative digital solutions that captivate and engage your audience."
+	/>
+
+	{
+		serviceAreas.map((area) => (
+			<section class="area" id={area.id} aria-labelledby={`${area.id}-title`}>
+				<div class="area__intro">
+					<h2 id={`${area.id}-title`} class="area__title">
+						{area.title}
+					</h2>
+					<p class="area__text">{area.text}</p>
+					<p class="area__includes">{area.includes}</p>
+				</div>
+
+				{area.groups.map((group) => (
+					<div class="group">
+						<h3 class="group__title">{group.title}</h3>
+						<ul class="group__items">
+							{group.items.map((item) => (
+								<li class="item">
+									<span class="tile item__icon">
+										<Icon name={item.icon} size={34} />
+									</span>
+									<p class="item__title">{item.title}</p>
+								</li>
+							))}
+						</ul>
+					</div>
+				))}
+			</section>
+		))
+	}
+
+	<CtaBanner />
+</BaseLayout>
+
+<style>
+	.area {
+		border-top: 1px solid var(--border);
+	}
+
+	.area__intro {
+		padding: clamp(100px, calc(100px + 50 * var(--t)), 150px) var(--space-card) var(--space-card);
+	}
+
+	.area__title {
+		font-size: var(--fz-h2);
+		font-weight: 600;
+		line-height: 1.2;
+	}
+
+	.area__text {
+		max-width: 1200px;
+		margin-top: 14px;
+		color: var(--text-muted);
+		line-height: 1.5;
+	}
+
+	.area__includes {
+		display: inline-block;
+		margin-top: clamp(40px, calc(40px + 10 * var(--t)), 50px);
+		padding: 10px 14px;
+		border-radius: var(--radius-sm);
+		background: var(--surface);
+		font-size: clamp(18px, calc(18px + 4 * var(--t)), 22px);
+		line-height: 1.4;
+	}
+
+	.group__title {
+		padding: var(--space-card);
+		border-top: 1px solid var(--border);
+		color: var(--text-subtle);
+		font-size: var(--fz-h4);
+		font-weight: 500;
+		line-height: 1.2;
+	}
+
+	.group__items {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		border-top: 1px solid var(--border);
+	}
+
+	.item {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(30px, calc(30px + 10 * var(--t)), 40px);
+		padding: var(--space-card);
+	}
+
+	.item + .item {
+		border-left: 1px solid var(--border);
+	}
+
+	.item__icon {
+		width: clamp(70px, calc(70px + 18 * var(--t)), 88px);
+		height: clamp(70px, calc(70px + 18 * var(--t)), 88px);
+	}
+
+	.item__title {
+		color: var(--text-muted);
+		font-size: var(--fz-lead);
+		line-height: 1.5;
+	}
+
+	@media (max-width: 1023px) {
+		.area__intro {
+			padding: 50px 16px 30px;
+		}
+
+		.area__title {
+			font-size: 28px;
+		}
+
+		.area__includes {
+			margin-top: 30px;
+			font-size: 16px;
+		}
+
+		.group__title {
+			padding: 40px 16px;
+			text-align: center;
+			font-size: 18px;
+		}
+
+		.group__items {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		.item {
+			gap: 20px;
+			padding: 20px;
+		}
+
+		.item + .item {
+			border-left: 0;
+		}
+
+		.item:nth-child(even) {
+			border-left: 1px solid var(--border);
+		}
+
+		.item:nth-child(n + 3) {
+			border-top: 1px solid var(--border);
+		}
+
+		.item__icon {
+			width: 58px;
+			height: 58px;
+		}
+
+		.item__icon :global(svg) {
+			width: 28px;
+			height: 28px;
+		}
+
+		.item__title {
+			font-size: 16px;
+		}
+	}
+</style>

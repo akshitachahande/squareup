@@ -1,29 +1,18 @@
 ---
 import Icon from './Icon.astro';
-import SectionBanner from './SectionBanner.astro';
+import CtaBanner from './CtaBanner.astro';
 
 const reasons = ['Web Design', 'Collaboration', 'Mobile App Design', 'Others'];
 const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 ---
 
 <section class="contact" id="contact-form" aria-labelledby="contact-title">
-	<SectionBanner
+	<CtaBanner
 		id="contact-title"
-		class="contact__banner"
-		image="/images/banners/cta.webp"
 		title="Thank you for your Interest in SquareUp."
 		text="We would love to hear from you and discuss how we can help bring your digital ideas to life. Here are the different ways you can get in touch with us."
-	>
-		<img
-			slot="before"
-			class="contact__cube"
-			src="/images/abstract/cube.svg"
-			alt=""
-			width="201"
-			height="200"
-		/>
-		<a href="#contact-fields" class="btn btn-primary contact__start">Start Project</a>
-	</SectionBanner>
+		href="#contact-fields"
+	/>
 
 	<div class="contact__body">
 		<!-- TODO: submit to Supabase (contact_messages table) -->
@@ -121,27 +110,6 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 </script>
 
 <style>
-	.contact__banner {
-		min-height: clamp(480px, calc(480px + 117 * var(--t)), 597px);
-	}
-
-	.contact__cube {
-		width: clamp(60px, calc(60px + 20 * var(--t)), 80px);
-		height: auto;
-		margin-bottom: clamp(30px, calc(30px + 16 * var(--t)), 46px);
-		border-radius: 12px;
-		box-shadow: 0 0 40px rgb(158 255 0 / 0.25);
-	}
-
-	.contact__banner :global(.banner__title) {
-		font-size: clamp(28px, calc(28px + 10 * var(--t)), 38px);
-		font-weight: 500;
-	}
-
-	.contact__start {
-		margin-top: clamp(30px, calc(30px + 20 * var(--t)), 50px);
-	}
-
 	.contact__body {
 		display: flex;
 		justify-content: center;
@@ -361,24 +329,6 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 	}
 
 	@media (max-width: 1023px) {
-		.contact__banner {
-			min-height: 390px;
-			padding-block: 50px;
-		}
-
-		.contact__banner :global(.banner__title) {
-			font-size: 24px;
-		}
-
-		.contact__cube {
-			width: 50px;
-			margin-bottom: 20px;
-		}
-
-		.contact__start {
-			margin-top: 30px;
-		}
-
 		.form {
 			padding: 24px 24px 24px;
 			gap: 30px;
