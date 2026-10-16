@@ -135,6 +135,15 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 		border: 1px solid var(--border);
 		border-radius: var(--radius-md);
 		background: rgb(36 36 36 / 0.5);
+		transition:
+			border-color 0.3s,
+			box-shadow 0.3s;
+	}
+
+	/* The box being filled in picks up a faint green edge */
+	.field:focus-within {
+		border-color: rgb(158 255 0 / 0.35);
+		box-shadow: 0 0 0 4px rgb(158 255 0 / 0.05);
 	}
 
 	fieldset.field {
@@ -230,11 +239,31 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 		border-radius: var(--radius-sm);
 		background: var(--surface);
 		color: transparent;
-		transition: color 0.15s;
+		transition:
+			color 0.15s,
+			background-color 0.2s;
+	}
+
+	.check:hover .check__box {
+		background: var(--grey-20);
 	}
 
 	.check input:checked + .check__box {
 		color: var(--accent);
+	}
+
+	/* The tick pops in when checked */
+	.check input:checked + .check__box :global(svg) {
+		animation: tick-pop 0.35s var(--ease-out);
+	}
+
+	@keyframes tick-pop {
+		from {
+			transform: scale(0.3);
+		}
+		60% {
+			transform: scale(1.2);
+		}
 	}
 
 	.check input:focus-visible + .check__box {
@@ -295,6 +324,19 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 		pointer-events: auto;
 		cursor: grab;
 		appearance: none;
+		transition:
+			transform 0.2s var(--ease-out),
+			box-shadow 0.2s;
+	}
+
+	.range input::-webkit-slider-thumb:hover {
+		transform: scale(1.15);
+		box-shadow: 0 0 0 6px rgb(158 255 0 / 0.12);
+	}
+
+	.range input:active::-webkit-slider-thumb {
+		cursor: grabbing;
+		transform: scale(1.1);
 	}
 
 	.range input::-moz-range-thumb {

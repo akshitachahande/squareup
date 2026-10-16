@@ -166,6 +166,59 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
 
 		.navbar__nav.is-open {
 			display: flex;
+			animation: menu-in 0.35s var(--ease-out);
+		}
+
+		/* Links drop in one after another */
+		.navbar__nav.is-open li,
+		.navbar__nav.is-open .navbar__cta {
+			animation: menu-item-in 0.4s var(--ease-out) both;
+		}
+
+		.navbar__nav.is-open li:nth-child(2) {
+			animation-delay: 40ms;
+		}
+
+		.navbar__nav.is-open li:nth-child(3) {
+			animation-delay: 80ms;
+		}
+
+		.navbar__nav.is-open li:nth-child(4) {
+			animation-delay: 120ms;
+		}
+
+		.navbar__nav.is-open li:nth-child(5) {
+			animation-delay: 160ms;
+		}
+
+		.navbar__nav.is-open li:nth-child(6) {
+			animation-delay: 200ms;
+		}
+
+		.navbar__nav.is-open .navbar__cta {
+			animation-delay: 240ms;
+		}
+
+		.navbar__toggle :global(svg) {
+			transition: transform 0.35s var(--ease-out);
+		}
+
+		.navbar__toggle[aria-expanded='true'] :global(svg) {
+			transform: rotate(90deg);
+		}
+
+		@keyframes menu-in {
+			from {
+				opacity: 0;
+				transform: translateY(-12px);
+			}
+		}
+
+		@keyframes menu-item-in {
+			from {
+				opacity: 0;
+				transform: translateY(-8px);
+			}
 		}
 
 		.navbar__links {

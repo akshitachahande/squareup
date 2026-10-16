@@ -44,4 +44,19 @@ export const revealStaggered = [
 	'.info > *',
 ];
 
+/* Headings that also come into focus from a soft blur */
+export const revealBlur = [
+	'.banner__title',
+	'.hero__title',
+	'.intro',
+	'.area__intro',
+	'.works__intro',
+	'.about__copy',
+	'.story__title',
+	'.group__title',
+];
+
+/* Images that grow into place instead of rising */
+export const revealZoom = ['.about__image', '.cta__cube'];
+
 export const revealSelector = [...revealBlocks, ...revealStaggered].join(',');

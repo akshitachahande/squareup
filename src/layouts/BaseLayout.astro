@@ -3,7 +3,7 @@ import '../styles/global.css';
 import Footer from '../components/Footer.astro';
 import Navbar from '../components/Navbar.astro';
 import { site } from '../data/site';
-import { revealSelector } from '../scripts/reveal-targets';
+import { revealBlur, revealSelector, revealZoom } from '../scripts/reveal-targets';
 
 interface Props {
 	title?: string;
@@ -16,12 +16,18 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} | A Digital 
 // Starting state for the scroll reveal (see src/scripts/reveal.ts)
 const revealCss = `
 .reveal-ready :is(${revealSelector}):not(.reveal-done) {
-	transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+	transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out), filter 0.8s var(--ease-out);
 	transition-delay: var(--reveal-delay, 0ms);
 }
 .reveal-ready :is(${revealSelector}):not(.is-revealed) {
 	opacity: 0;
 	transform: translateY(28px);
+}
+.reveal-ready :is(${revealBlur.join(',')}):not(.is-revealed) {
+	filter: blur(8px);
+}
+.reveal-ready :is(${revealZoom.join(',')}):not(.is-revealed) {
+	transform: scale(0.92);
 }`;
 ---
 
@@ -59,6 +65,7 @@ const revealCss = `
 		<Footer />
 		<script>
 			import '../scripts/reveal';
+			import '../scripts/spotlight';
 		</script>
 	</body>
 </html>

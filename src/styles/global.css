@@ -278,6 +278,90 @@ ol {
 	transform: translateY(-4px) scale(1.05);
 }
 
+/* Pointer-following glow on grid cards (position from src/scripts/spotlight.ts).
+   --spot is registered so the glow can fade in and out. */
+@property --spot {
+	syntax: '<number>';
+	inherits: false;
+	initial-value: 0;
+}
+
+.spotlight {
+	background-image: radial-gradient(
+		420px circle at var(--mx, 50%) var(--my, 50%),
+		rgb(158 255 0 / calc(0.07 * var(--spot))),
+		transparent 70%
+	);
+	transition: --spot 0.4s var(--ease-out);
+}
+
+.spotlight:hover {
+	--spot: 1;
+}
+
+/* Card images and inner panels respond to their card being hovered */
+.work__image,
+.about__image {
+	transition: transform 0.6s var(--ease-out);
+}
+
+.work:hover .work__image,
+.about__image:hover {
+	transform: scale(1.025);
+}
+
+.author {
+	transition: border-color 0.3s;
+}
+
+.testimonial:hover .author {
+	border-color: var(--grey-20);
+}
+
+.work__link :is(svg) {
+	transition: transform 0.3s var(--ease-out);
+}
+
+.work:hover .work__link svg {
+	transform: translate(2px, -2px);
+}
+
+/* Page transitions: pages cross-fade with a slight rise in browsers that
+   support cross-document view transitions; others navigate as normal. */
+@view-transition {
+	navigation: auto;
+}
+
+::view-transition-old(root) {
+	animation: page-out 0.25s ease-in both;
+}
+
+::view-transition-new(root) {
+	animation: page-in 0.45s var(--ease-out) both;
+}
+
+@keyframes page-out {
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes page-in {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+}
+
+/* The navbar stays put while the page content changes */
+.navbar {
+	view-transition-name: navbar;
+}
+
+::view-transition-group(navbar) {
+	animation: none;
+}
+
 /* Motion */
 
 /* Scroll reveal: the hidden starting state is built in BaseLayout from

@@ -26,12 +26,14 @@ const columns = [faqs.slice(0, half), faqs.slice(half)];
 								<summary>
 									<span class="tile faq__num">{String(n).padStart(2, '0')}</span>
 									<span class="faq__q">{item.question}</span>
+									{/* One plus that turns 45° into a cross when open */}
 									<span class="faq__icon">
-										<Icon name="plus" size={30} class="faq__plus" />
-										<Icon name="x" size={30} class="faq__x" />
+										<Icon name="plus" size={30} />
 									</span>
 								</summary>
-								<p class="faq__a">{item.answer}</p>
+								<div class="faq__panel">
+									<p class="faq__a">{item.answer}</p>
+								</div>
 							</details>
 						);
 					})}
@@ -40,6 +42,65 @@ const columns = [faqs.slice(0, half), faqs.slice(half)];
 		}
 	</div>
 </section>
+
+<script>
+	/*
+	 * Smooth accordion. <details name="faq"> already gives one-open-at-a-time
+	 * without JS; here the open/close is animated instead of snapping.
+	 * data-state flips immediately so the colour and icon change with the
+	 * motion, while [open] is only removed once the panel has closed.
+	 */
+	const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+	const items = [...document.querySelectorAll<HTMLDetailsElement>('.faq__item')];
+	const timing = { duration: 420, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' };
+	const running = new WeakMap<HTMLDetailsElement, Animation>();
+
+	for (const item of items) {
+		item.dataset.state = item.open ? 'open' : 'closed';
+		// We manage exclusivity ourselves so the other item can animate closed
+		item.removeAttribute('name');
+	}
+
+	function animatePanel(item: HTMLDetailsElement, opening: boolean) {
+		const panel = item.querySelector<HTMLElement>('.faq__panel')!;
+		running.get(item)?.cancel();
+		item.dataset.state = opening ? 'open' : 'closed';
+
+		if (reduceMotion.matches) {
+			item.open = opening;
+			return;
+		}
+
+		if (opening) item.open = true;
+		const height = panel.scrollHeight;
+		// The resolved --a-pull (the panel tucks up under the question)
+		const pull = getComputedStyle(panel).marginTop;
+		const open = { height: `${height}px`, marginTop: pull, opacity: 1 };
+		const shut = { height: '0px', marginTop: '0px', opacity: 0 };
+
+		panel.style.overflow = 'hidden';
+		const animation = panel.animate(opening ? [shut, open] : [open, shut], timing);
+		running.set(item, animation);
+		animation.onfinish = () => {
+			panel.style.overflow = '';
+			if (!opening) item.open = false;
+			running.delete(item);
+		};
+	}
+
+	for (const item of items) {
+		item.querySelector('summary')!.addEventListener('click', (event) => {
+			event.preventDefault();
+			const opening = item.dataset.state !== 'open';
+			if (opening) {
+				for (const other of items) {
+					if (other !== item && other.dataset.state === 'open') animatePanel(other, false);
+				}
+			}
+			animatePanel(item, opening);
+		});
+	}
+</script>
 
 <style>
 	.faq__intro {
@@ -109,27 +170,46 @@ const columns = [faqs.slice(0, half), faqs.slice(half)];
 		line-height: 1.5;
 	}
 
+	.faq__num,
+	.faq__q,
+	.faq__icon {
+		transition: color 0.3s;
+	}
+
+	.faq__num {
+		transition:
+			color 0.3s,
+			transform 0.4s var(--ease-out);
+	}
+
 	.faq__icon {
 		flex: none;
 		color: var(--text);
+		transition:
+			color 0.3s,
+			transform 0.45s var(--ease-out);
 	}
 
-	.faq__icon :global(.faq__x),
-	.faq__item[open] .faq__icon :global(.faq__plus) {
-		display: none;
-	}
-
-	.faq__item[open] .faq__icon :global(.faq__x) {
-		display: block;
-	}
-
-	.faq__item[open] :is(.faq__num, .faq__q, .faq__icon) {
+	/* Open: green, and the plus turns into a cross. data-state is set by the
+	   accordion script so this follows the motion; [open] covers no-JS. */
+	.faq__item:is([data-state='open'], [open]:not([data-state])) :is(.faq__num, .faq__q, .faq__icon) {
 		color: var(--accent);
 	}
 
+	.faq__item:is([data-state='open'], [open]:not([data-state])) .faq__icon {
+		transform: rotate(45deg);
+	}
+
+	summary:hover .faq__num {
+		transform: scale(1.06);
+	}
+
 	/* Answer lines up under the question text */
-	.faq__a {
+	.faq__panel {
 		margin-top: var(--a-pull);
+	}
+
+	.faq__a {
 		padding: 0 calc(var(--space-card) + var(--gap)) var(--py)
 			calc(var(--space-card) + var(--num) + var(--gap));
 		color: var(--text-muted);
