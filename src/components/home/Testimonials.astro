@@ -7,6 +7,7 @@ import { testimonials } from '../../data/home';
 	<SectionBanner
 		id="testimonials-title"
 		title="What our Clients say About us"
+		image="/images/banners/testimonials.webp"
 		text="At SquareUp, we take pride in delivering exceptional digital products and services that drive success for our clients. Here's what some of our satisfied clients have to say about their experience working with us"
 	/>
 
@@ -19,7 +20,7 @@ import { testimonials } from '../../data/home';
 						<p class="testimonial__text">{t.text}</p>
 					</blockquote>
 					<div class="author">
-						<img class="author__avatar" src={t.avatar} alt="" width="60" height="60" loading="lazy" />
+						<img class="author__avatar" src={t.avatar} alt="" width="60" height="60" />
 						<div class="author__info">
 							<p class="author__name">{t.name}</p>
 							<p class="author__role">{t.role}</p>

@@ -2,9 +2,9 @@
 /**
  * The dark header strip that opens each section ("Our Services", "FAQ"...).
  *
- * In Figma each banner has its own 3D wave photo with a dark blend overlay.
- * Until those are exported, `image` is optional and the strip falls back to
- * a CSS approximation (green glows + the square-dot pattern).
+ * Each banner has its own 3D wave image (public/images/banners, exported
+ * from Figma with the overlay and dot pattern baked in). Without `image`
+ * the strip falls back to a CSS approximation (green glows + dot pattern).
  */
 interface Props {
 	title: string;

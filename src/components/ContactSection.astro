@@ -10,6 +10,7 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 	<SectionBanner
 		id="contact-title"
 		class="contact__banner"
+		image="/images/banners/cta.webp"
 		title="Thank you for your Interest in SquareUp."
 		text="We would love to hear from you and discuss how we can help bring your digital ideas to life. Here are the different ways you can get in touch with us."
 	>
@@ -134,7 +135,7 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 
 	.contact__banner :global(.banner__title) {
 		font-size: clamp(28px, calc(28px + 10 * var(--t)), 38px);
-		font-weight: 600;
+		font-weight: 500;
 	}
 
 	.contact__start {
@@ -216,7 +217,7 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 
 	/* Two ruled lines, as in the design */
 	.field__textarea {
-		resize: vertical;
+		resize: none;
 		line-height: 40px;
 		padding-bottom: 0;
 		background: repeating-linear-gradient(
