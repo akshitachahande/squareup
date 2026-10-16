@@ -52,8 +52,8 @@ import { audiences, brands } from '../../data/home';
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		min-height: clamp(690px, calc(690px + 106 * var(--t)), 796px);
-		padding: clamp(110px, calc(110px + 10 * var(--t)), 120px) 20px 0;
+		min-height: 796px;
+		padding: 120px 20px 0;
 		overflow: hidden;
 		text-align: center;
 		background:
@@ -73,9 +73,9 @@ import { audiences, brands } from '../../data/home';
 	.hero__for {
 		position: relative;
 		z-index: 1;
-		margin-top: clamp(40px, calc(40px + 10 * var(--t)), 50px);
-		padding: clamp(10px, calc(10px + 4 * var(--t)), 14px);
-		padding-left: clamp(30px, calc(30px + 10 * var(--t)), 40px);
+		margin-top: 50px;
+		padding: 14px;
+		padding-left: 40px;
 		border: 1px solid var(--border);
 		border-radius: var(--radius-md);
 		background: rgb(25 25 25 / 0.6);
@@ -87,7 +87,7 @@ import { audiences, brands } from '../../data/home';
 	.hero__for-desktop {
 		display: flex;
 		align-items: center;
-		gap: clamp(6px, calc(6px + 2 * var(--t)), 8px);
+		gap: 8px;
 	}
 
 	.hero__for-mobile {
@@ -95,7 +95,7 @@ import { audiences, brands } from '../../data/home';
 	}
 
 	.hero__chip {
-		padding: clamp(6px, calc(6px + 4 * var(--t)), 10px) clamp(10px, calc(10px + 4 * var(--t)), 14px);
+		padding: 10px 14px;
 		border-radius: var(--radius-sm);
 		background: var(--surface);
 		color: var(--text-muted);
@@ -130,8 +130,8 @@ import { audiences, brands } from '../../data/home';
 		top: 0;
 		left: 50%;
 		z-index: 1;
-		transform: translate(-50%, -50%);
-		padding: clamp(14px, calc(14px + 4 * var(--t)), 18px) clamp(24px, calc(24px + 10 * var(--t)), 34px);
+		transform: translateX(-50%);
+		padding: 18px 34px;
 		border: 1px solid var(--border);
 		border-radius: 100px;
 		background: var(--bg);
@@ -144,15 +144,52 @@ import { audiences, brands } from '../../data/home';
 		display: flex;
 		align-items: center;
 		justify-content: space-around;
-		min-height: clamp(130px, calc(130px + 40 * var(--t)), 170px);
-		padding: 30px clamp(20px, calc(20px + 20 * var(--t)), 40px) 20px;
+		/* Top padding clears the badge, which hangs from the hero's border */
+		min-height: 202px;
+		padding: 58px 40px 28px;
 	}
 
 	.brands__list img {
 		width: auto;
-		height: clamp(44px, calc(44px + 16 * var(--t)), 60px);
+		height: 60px;
 	}
 
+	/* Laptop (1440 frame) */
+	@media (max-width: 1799px) {
+		.hero__main {
+			min-height: 690px;
+			padding: 110px 20px 0;
+		}
+
+		.hero__for {
+			margin-top: 40px;
+			padding: 10px;
+			padding-left: 30px;
+		}
+
+		.hero__for-desktop {
+			gap: 6px;
+		}
+
+		.hero__chip {
+			padding: 6px 10px;
+		}
+
+		.brands__badge {
+			padding: 14px 24px;
+		}
+
+		.brands__list {
+			min-height: 154px;
+			padding: 41px 20px 23px;
+		}
+
+		.brands__list img {
+			height: 48px;
+		}
+	}
+
+	/* Mobile (390 frame) */
 	@media (max-width: 1023px) {
 		.hero__main {
 			min-height: 568px;
@@ -177,7 +214,7 @@ import { audiences, brands } from '../../data/home';
 		}
 
 		.hero__mountain {
-			width: 150%;
+			width: 210%;
 			bottom: 0;
 		}
 
@@ -186,11 +223,11 @@ import { audiences, brands } from '../../data/home';
 			padding: 14px 24px;
 		}
 
-		/* 2-column grid with internal borders */
+		/* 2-column grid with internal borders, below the badge */
 		.brands__list {
 			display: grid;
 			grid-template-columns: 1fr 1fr;
-			padding: 0;
+			padding: 46px 0 0;
 		}
 
 		.brands__list li {

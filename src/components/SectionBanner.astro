@@ -38,8 +38,14 @@ const { title, text, image, as: Heading = 'h2', id, class: className } = Astro.p
 		align-items: center;
 		justify-content: center;
 		gap: 14px;
-		min-height: clamp(280px, calc(280px + 56 * var(--t)), 336px);
-		padding: var(--space-section) var(--space-card);
+		/*
+		 * Height comes from the padding, so two-line banners grow as in the
+		 * design. Callers can't reach this element with scoped styles, so
+		 * --banner-min-height(-mobile) and --banner-padding-block-mobile are
+		 * the override hooks.
+		 */
+		min-height: var(--banner-min-height, 0);
+		padding: 120px var(--space-card);
 		overflow: hidden;
 		text-align: center;
 		background:
@@ -63,11 +69,23 @@ const { title, text, image, as: Heading = 'h2', id, class: className } = Astro.p
 		line-height: 1.5;
 	}
 
+	/* Laptop (1440 frame) */
+	@media (max-width: 1799px) {
+		.banner {
+			padding-block: 98px;
+		}
+
+		.banner__text {
+			max-width: 760px;
+		}
+	}
+
+	/* Mobile (390 frame) */
 	@media (max-width: 1023px) {
 		.banner {
-			min-height: 190px;
+			min-height: var(--banner-min-height-mobile, 190px);
 			gap: 10px;
-			padding: 40px 24px;
+			padding: var(--banner-padding-block-mobile, 50px) 24px;
 		}
 	}
 </style>

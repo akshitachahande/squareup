@@ -119,8 +119,8 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 	.form {
 		display: flex;
 		flex-direction: column;
-		gap: clamp(30px, calc(30px + 10 * var(--t)), 40px);
-		width: min(100%, clamp(860px, calc(860px + 200 * var(--t)), 1060px));
+		gap: 40px;
+		width: min(100%, 1060px);
 		padding: var(--space-section);
 		border-inline: 1px solid var(--border);
 	}
@@ -128,14 +128,15 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 	.form__row {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		gap: clamp(30px, calc(30px + 10 * var(--t)), 40px);
+		gap: 40px;
 	}
 
+	/* Text fields are tighter than the grouped (fieldset) questions */
 	.field {
 		display: flex;
 		flex-direction: column;
 		min-width: 0;
-		padding: clamp(30px, calc(30px + 10 * var(--t)), 40px);
+		padding: 24px;
 		border: 1px solid var(--border);
 		border-radius: var(--radius-md);
 		background: rgb(36 36 36 / 0.5);
@@ -143,6 +144,7 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 
 	fieldset.field {
 		display: block;
+		padding: 40px;
 	}
 
 	.field__label {
@@ -164,8 +166,8 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 	.field__input {
 		clear: both;
 		width: 100%;
-		margin-top: clamp(20px, calc(20px + 10 * var(--t)), 30px);
-		padding: 0 0 12px;
+		margin-top: 20px;
+		padding: 0 0 6px;
 		border: 0;
 		border-bottom: 1px solid var(--grey-20);
 		background: none;
@@ -185,31 +187,30 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 
 	/* Two ruled lines, as in the design */
 	.field__textarea {
+		--line: 40px;
+		--rule: var(--grey-20);
 		resize: none;
-		line-height: 40px;
+		margin-top: 12px;
+		line-height: var(--line);
 		padding-bottom: 0;
 		background: repeating-linear-gradient(
 			to bottom,
-			transparent 0 39px,
-			var(--grey-20) 39px 40px
+			transparent 0 calc(var(--line) - 1px),
+			var(--rule) calc(var(--line) - 1px) var(--line)
 		);
 		border-bottom: 0;
 	}
 
 	.field__textarea:focus {
-		background: repeating-linear-gradient(
-			to bottom,
-			transparent 0 39px,
-			var(--accent) 39px 40px
-		);
+		--rule: var(--accent);
 	}
 
 	.checks {
 		clear: both;
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		gap: 20px clamp(30px, calc(30px + 10 * var(--t)), 40px);
-		padding-top: clamp(30px, calc(30px + 10 * var(--t)), 50px);
+		gap: 24px 20px;
+		padding-top: 40px;
 	}
 
 	.check {
@@ -246,17 +247,21 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 		outline-offset: 2px;
 	}
 
-	/* Dual-thumb budget slider */
+	/*
+	 * Dual-thumb budget slider. The value labels hang below the box's
+	 * content area into its padding, as in the design.
+	 */
 	.range {
+		--thumb: 30px;
 		clear: both;
 		position: relative;
-		height: 70px;
-		margin-top: clamp(30px, calc(30px + 20 * var(--t)), 50px);
+		height: 45px;
+		margin-top: 50px;
 	}
 
 	.range__track {
 		position: absolute;
-		top: 13px;
+		top: calc(var(--thumb) / 2 - 2px);
 		left: 0;
 		right: 0;
 		height: 4px;
@@ -272,9 +277,9 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 	.range input {
 		position: absolute;
 		top: 0;
-		left: -15px;
-		width: calc(100% + 30px);
-		height: 30px;
+		left: calc(var(--thumb) / -2);
+		width: calc(100% + var(--thumb));
+		height: var(--thumb);
 		margin: 0;
 		background: none;
 		pointer-events: none;
@@ -287,9 +292,9 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 
 	.range input::-webkit-slider-thumb {
 		box-sizing: border-box;
-		width: 30px;
-		height: 30px;
-		border: 7px solid var(--grey-30);
+		width: var(--thumb);
+		height: var(--thumb);
+		border: calc(var(--thumb) * 0.23) solid var(--grey-30);
 		border-radius: 50%;
 		background: var(--accent);
 		pointer-events: auto;
@@ -298,9 +303,9 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 	}
 
 	.range input::-moz-range-thumb {
-		width: 16px;
-		height: 16px;
-		border: 7px solid var(--grey-30);
+		width: calc(var(--thumb) * 0.54);
+		height: calc(var(--thumb) * 0.54);
+		border: calc(var(--thumb) * 0.23) solid var(--grey-30);
 		border-radius: 50%;
 		background: var(--accent);
 		pointer-events: auto;
@@ -309,7 +314,7 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 
 	.range__label {
 		position: absolute;
-		top: 40px;
+		top: 34px;
 		transform: translateX(-50%);
 		font-size: var(--fz-body);
 		font-weight: 500;
@@ -325,9 +330,58 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 
 	.form__submit {
 		align-self: center;
-		padding-inline: 44px;
+		padding: 20px 48px;
 	}
 
+	/* Laptop (1440 frame) */
+	@media (max-width: 1799px) {
+		.form {
+			gap: 30px;
+			width: min(100%, 860px);
+		}
+
+		.form__row {
+			gap: 30px;
+		}
+
+		.field {
+			padding: 20px;
+		}
+
+		fieldset.field {
+			padding: 30px;
+		}
+
+		.field__input {
+			margin-top: 16px;
+			padding-bottom: 4px;
+		}
+
+		.field__textarea {
+			--line: 32px;
+			margin-top: 16px;
+		}
+
+		.checks {
+			padding-top: 30px;
+		}
+
+		.range {
+			--thumb: 20px;
+			height: 38px;
+			margin-top: 46px;
+		}
+
+		.range__label {
+			top: 24px;
+		}
+
+		.form__submit {
+			padding: 16px 36px;
+		}
+	}
+
+	/* Mobile (390 frame) */
 	@media (max-width: 1023px) {
 		.form {
 			padding: 24px 24px 24px;
@@ -343,8 +397,34 @@ const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
 			gap: 20px;
 		}
 
-		.field {
+		/* Text fields keep the laptop's 20px padding */
+		fieldset.field {
 			padding: 24px;
+		}
+
+		/* The form uses 16px text on mobile, larger than body copy */
+		.field__input,
+		.check,
+		.range__label {
+			font-size: 16px;
+		}
+
+		.field__input {
+			margin-top: 14px;
+		}
+
+		.field__textarea {
+			--line: 34px;
+			margin-top: 10px;
+		}
+
+		.field__hint {
+			padding-top: 6px;
+		}
+
+		.range {
+			height: 52px;
+			margin-top: 34px;
 		}
 
 		.form__submit {

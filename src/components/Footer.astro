@@ -75,7 +75,7 @@ const contacts = [
 		align-items: center;
 		justify-content: space-between;
 		gap: 30px;
-		padding-block: clamp(40px, calc(40px + 10 * var(--t)), 50px);
+		padding-block: 50px;
 		border-bottom: 1px solid var(--border);
 	}
 
@@ -83,7 +83,7 @@ const contacts = [
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		gap: clamp(20px, calc(20px + 10 * var(--t)), 30px);
+		gap: 30px;
 	}
 
 	.footer__links a,
@@ -100,7 +100,7 @@ const contacts = [
 	.footer__social {
 		display: flex;
 		align-items: center;
-		gap: clamp(14px, calc(14px + 6 * var(--t)), 20px);
+		gap: 20px;
 		padding: 10px 10px 10px 20px;
 		border: 1px solid var(--border);
 		border-radius: var(--radius-lg);
@@ -108,12 +108,12 @@ const contacts = [
 
 	.footer__social ul {
 		display: flex;
-		gap: clamp(10px, calc(10px + 4 * var(--t)), 14px);
+		gap: 14px;
 	}
 
 	.footer__social-btn {
-		width: clamp(52px, calc(52px + 12 * var(--t)), 64px);
-		height: clamp(52px, calc(52px + 12 * var(--t)), 64px);
+		width: 64px;
+		height: 64px;
 		border-radius: var(--radius);
 		transition: background-color 0.2s;
 	}
@@ -127,13 +127,13 @@ const contacts = [
 		align-items: center;
 		justify-content: space-between;
 		gap: 30px;
-		padding-block: clamp(40px, calc(40px + 10 * var(--t)), 50px);
+		padding-block: 50px;
 	}
 
 	.footer__contacts {
 		display: flex;
 		flex-wrap: wrap;
-		gap: clamp(20px, calc(20px + 10 * var(--t)), 30px);
+		gap: 30px;
 	}
 
 	.footer__contacts :is(a, span) {
@@ -153,6 +153,39 @@ const contacts = [
 		color: var(--text-subtle);
 	}
 
+	/* Laptop (1440 frame) */
+	@media (max-width: 1799px) {
+		.footer__top {
+			padding-block: 40px;
+		}
+
+		.footer__links {
+			gap: 20px;
+		}
+
+		.footer__social {
+			gap: 14px;
+		}
+
+		.footer__social ul {
+			gap: 10px;
+		}
+
+		.footer__social-btn {
+			width: 52px;
+			height: 52px;
+		}
+
+		.footer__bottom {
+			padding-block: 40px;
+		}
+
+		.footer__contacts {
+			gap: 20px;
+		}
+	}
+
+	/* Mobile (390 frame) */
 	@media (max-width: 1023px) {
 		.footer__top,
 		.footer__bottom {
@@ -163,8 +196,11 @@ const contacts = [
 			text-align: center;
 		}
 
+		/* Margin, not padding: padding inside the fixed-height logo box
+		   squeezed the image to nothing */
 		.footer__top :global(.footer__logo) {
-			padding-block: 30px;
+			height: 50px;
+			margin-block: 30px;
 		}
 
 		.footer__top nav {
@@ -174,7 +210,7 @@ const contacts = [
 		}
 
 		.footer__links {
-			gap: 14px 20px;
+			gap: 20px;
 			font-size: 16px;
 		}
 
@@ -182,7 +218,7 @@ const contacts = [
 			flex-direction: column;
 			align-self: stretch;
 			gap: 14px;
-			padding: 20px;
+			padding: 16px;
 			font-size: 16px;
 		}
 

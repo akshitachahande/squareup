@@ -5,9 +5,12 @@
 
 /*
  * Design tokens from the Figma "Template Guide" (colors / typography pages).
- * Three frames exist in Figma: desktop 1920, laptop 1440, mobile 390.
- * Between 1440 and 1920 sizes scale linearly from the laptop to the desktop
- * value; below 1024 the mobile values apply.
+ * Figma has three frames per page, and every stylesheet follows the same
+ * three tiers:
+ *   - Desktop (1920 frame): base styles, viewport >= 1800px
+ *   - Laptop (1440 frame):  @media (max-width: 1799px)
+ *   - Mobile (390 frame):   @media (max-width: 1023px)
+ * Keep the laptop block before the mobile block so mobile wins below 1024px.
  */
 :root {
 	/* Absolute */
@@ -44,18 +47,15 @@
 	--accent: var(--green-50);
 	--on-accent: var(--grey-10);
 
-	/* 0 at 1440px viewport, 1px at 1920px viewport */
-	--t: calc((100vw - 1440px) / 480);
-
-	/* Typography: laptop -> desktop */
-	--fz-display: clamp(48px, calc(48px + 20 * var(--t)), 68px);
-	--fz-h2: clamp(38px, calc(38px + 10 * var(--t)), 48px);
-	--fz-h3: clamp(24px, calc(24px + 6 * var(--t)), 30px);
-	--fz-h4: clamp(20px, calc(20px + 8 * var(--t)), 28px);
-	--fz-h5: clamp(18px, calc(18px + 4 * var(--t)), 22px);
-	--fz-lead: clamp(18px, calc(18px + 2 * var(--t)), 20px);
-	--fz-body: clamp(16px, calc(16px + 2 * var(--t)), 18px);
-	--fz-ui: clamp(14px, calc(14px + 4 * var(--t)), 18px);
+	/* Typography */
+	--fz-display: 68px;
+	--fz-h2: 48px;
+	--fz-h3: 30px;
+	--fz-h4: 28px;
+	--fz-h5: 22px;
+	--fz-lead: 20px;
+	--fz-body: 18px;
+	--fz-ui: 18px;
 
 	/* Layout */
 	--container: 1600px;
@@ -65,14 +65,32 @@
 	--radius-md: 10px;
 	--radius-lg: 12px;
 
-	/* Shared spacing: laptop -> desktop */
-	--space-section: clamp(60px, calc(60px + 20 * var(--t)), 80px);
-	--space-card: clamp(40px, calc(40px + 10 * var(--t)), 50px);
-	--nav-h: clamp(85px, calc(85px + 15 * var(--t)), 100px);
+	/* Shared spacing */
+	--space-section: 80px;
+	--space-card: 50px;
+	--nav-h: 100px;
 
 	--dot-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cpath d='M7.5 12.5v-5h5' fill='none' stroke='%23262626'/%3E%3C/svg%3E");
 }
 
+/* Laptop (1440 frame) */
+@media (max-width: 1799px) {
+	:root {
+		--fz-display: 48px;
+		--fz-h2: 38px;
+		--fz-h3: 24px;
+		--fz-h4: 20px;
+		--fz-h5: 18px;
+		--fz-lead: 18px;
+		--fz-body: 16px;
+		--fz-ui: 14px;
+		--space-section: 60px;
+		--space-card: 40px;
+		--nav-h: 85px;
+	}
+}
+
+/* Mobile (390 frame) */
 @media (max-width: 1023px) {
 	:root {
 		--fz-display: 34px;
@@ -182,7 +200,7 @@ ol {
 	align-items: center;
 	justify-content: center;
 	gap: 8px;
-	padding: clamp(14px, calc(14px + 4 * var(--t)), 18px) clamp(20px, calc(20px + 4 * var(--t)), 24px);
+	padding: 18px 24px;
 	border-radius: var(--radius);
 	font-size: var(--fz-ui);
 	font-weight: 500;
@@ -192,6 +210,13 @@ ol {
 		background-color 0.2s,
 		border-color 0.2s,
 		color 0.2s;
+}
+
+/* Laptop (1440 frame) */
+@media (max-width: 1799px) {
+	.btn {
+		padding: 14px 20px;
+	}
 }
 
 .btn-primary {

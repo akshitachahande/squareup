@@ -58,7 +58,7 @@ const columns = [faqs.slice(0, half), faqs.slice(half)];
 
 	/* Empty band above the questions, as in the design */
 	.faq__col {
-		padding-top: var(--space-section);
+		padding-block: var(--space-section);
 	}
 
 	.faq__col + .faq__col {
@@ -74,9 +74,11 @@ const columns = [faqs.slice(0, half), faqs.slice(half)];
 	}
 
 	.faq__item {
-		--num: clamp(60px, calc(60px + 20 * var(--t)), 80px);
-		--gap: clamp(24px, calc(24px + 6 * var(--t)), 30px);
-		--py: clamp(24px, calc(24px + 10 * var(--t)), 34px);
+		--num: 80px;
+		--gap: 30px;
+		--py: 30px;
+		/* How far the answer tucks up under the question row */
+		--a-pull: -26px;
 	}
 
 	summary {
@@ -96,7 +98,7 @@ const columns = [faqs.slice(0, half), faqs.slice(half)];
 		width: var(--num);
 		height: var(--num);
 		color: var(--text);
-		font-size: clamp(24px, calc(24px + 6 * var(--t)), 30px);
+		font-size: 30px;
 		font-weight: 600;
 	}
 
@@ -127,8 +129,8 @@ const columns = [faqs.slice(0, half), faqs.slice(half)];
 
 	/* Answer lines up under the question text */
 	.faq__a {
-		margin-top: calc(var(--py) * -0.5);
-		padding: 0 calc(var(--space-card) + 30px + var(--gap)) var(--py)
+		margin-top: var(--a-pull);
+		padding: 0 calc(var(--space-card) + var(--gap)) var(--py)
 			calc(var(--space-card) + var(--num) + var(--gap));
 		color: var(--text-muted);
 		font-size: var(--fz-body);
@@ -139,13 +141,28 @@ const columns = [faqs.slice(0, half), faqs.slice(half)];
 		color: var(--green-60);
 	}
 
+	/* Laptop (1440 frame) */
+	@media (max-width: 1799px) {
+		.faq__item {
+			--num: 60px;
+			--gap: 24px;
+			--py: 25px;
+			--a-pull: -12px;
+		}
+
+		.faq__num {
+			font-size: 24px;
+		}
+	}
+
+	/* Mobile (390 frame) */
 	@media (max-width: 1023px) {
 		.faq__grid {
 			grid-template-columns: 1fr;
 		}
 
 		.faq__col {
-			padding-top: 0;
+			padding-block: 0;
 		}
 
 		.faq__col + .faq__col {
@@ -163,7 +180,8 @@ const columns = [faqs.slice(0, half), faqs.slice(half)];
 		.faq__item {
 			--num: 52px;
 			--gap: 20px;
-			--py: 30px;
+			--py: 24px;
+			--a-pull: calc(var(--py) * -0.5);
 		}
 
 		summary {

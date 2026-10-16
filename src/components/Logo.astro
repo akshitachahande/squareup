@@ -14,7 +14,7 @@ const { class: className } = Astro.props;
 	.logo {
 		display: block;
 		flex: none;
-		height: clamp(40px, calc(40px + 20 * var(--t)), 60px);
+		height: 60px;
 	}
 
 	.logo img {
@@ -22,6 +22,14 @@ const { class: className } = Astro.props;
 		height: 100%;
 	}
 
+	/* Laptop (1440 frame) */
+	@media (max-width: 1799px) {
+		.logo {
+			height: 40px;
+		}
+	}
+
+	/* Mobile (390 frame) */
 	@media (max-width: 1023px) {
 		.logo {
 			height: 40px;
