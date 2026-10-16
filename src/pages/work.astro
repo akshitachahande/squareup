@@ -1,0 +1,214 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import Icon from '../components/Icon.astro';
+import SectionBanner from '../components/SectionBanner.astro';
+import { works } from '../data/works';
+---
+
+<BaseLayout
+	title="Work"
+	description="A portfolio of digital products SquareUp has designed and built for its clients."
+>
+	<SectionBanner
+		as="h1"
+		title="Our Works"
+		image="/images/banners/cta.webp"
+		text="Discover a portfolio of visually stunning and strategically crafted digital projects that showcase our creativity and expertise."
+	/>
+
+	<section class="works" aria-labelledby="works-title">
+		<div class="works__intro">
+			<h2 id="works-title" class="works__title">At SquareUp</h2>
+			<p class="works__text">
+				We have had the privilege of working with a diverse range of clients and delivering exceptional
+				digital products that drive success.
+			</p>
+			<p class="works__label">Here are ten examples of our notable works:</p>
+		</div>
+
+		<ul class="works__grid">
+			{
+				works.map((w) => (
+					<li class="work">
+						<h3 class="work__category">{w.category}</h3>
+						<div class="work__body">
+							<img
+								class="work__image"
+								src={w.image}
+								alt={`${w.name} website and mobile mockups`}
+								width="698"
+								height="454"
+								loading="lazy"
+							/>
+							<div class="work__meta">
+								<p class="work__name">{w.name}</p>
+								<p class="work__url">{w.url}</p>
+								<a href="#" class="tile work__link" aria-label={`View the ${w.name} project`}>
+									<Icon name="arrow-up-right" size={24} />
+								</a>
+							</div>
+							<p class="work__text">{w.text}</p>
+						</div>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<CtaBanner />
+</BaseLayout>
+
+<style>
+	.works {
+		border-top: 1px solid var(--border);
+	}
+
+	.works__intro {
+		padding: clamp(100px, calc(100px + 50 * var(--t)), 150px) var(--space-card) var(--space-card);
+	}
+
+	.works__title {
+		font-size: var(--fz-h2);
+		font-weight: 600;
+		line-height: 1.2;
+	}
+
+	.works__text {
+		max-width: 1200px;
+		margin-top: 14px;
+		color: var(--text-muted);
+		line-height: 1.5;
+	}
+
+	.works__label {
+		display: inline-block;
+		margin-top: clamp(40px, calc(40px + 10 * var(--t)), 50px);
+		padding: 10px 14px;
+		border-radius: var(--radius-sm);
+		background: var(--surface);
+		font-size: clamp(18px, calc(18px + 4 * var(--t)), 22px);
+		line-height: 1.4;
+	}
+
+	.works__grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.work {
+		display: flex;
+		flex-direction: column;
+		border-top: 1px solid var(--border);
+	}
+
+	.work:nth-child(even) {
+		border-left: 1px solid var(--border);
+	}
+
+	.work__category {
+		padding: clamp(30px, calc(30px + 6 * var(--t)), 36px) var(--space-card);
+		border-bottom: 1px solid var(--border);
+		color: var(--text-subtle);
+		font-size: var(--fz-h5);
+		font-weight: 500;
+		line-height: 1.5;
+	}
+
+	.work__body {
+		flex: 1;
+		padding: var(--space-card) var(--space-card) clamp(60px, calc(60px + 20 * var(--t)), 80px);
+	}
+
+	.work__image {
+		width: 100%;
+		height: auto;
+		border-radius: var(--radius-lg);
+	}
+
+	.work__meta {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		align-items: center;
+		row-gap: 10px;
+		margin-top: clamp(24px, calc(24px + 6 * var(--t)), 30px);
+	}
+
+	.work__name {
+		grid-column: 1;
+		font-size: var(--fz-h5);
+		font-weight: 500;
+		line-height: 1.5;
+	}
+
+	.work__url {
+		grid-column: 1;
+		justify-self: start;
+		padding: 10px 14px;
+		border-radius: var(--radius-sm);
+		background: var(--surface);
+		color: var(--text-subtle);
+		font-size: var(--fz-ui);
+		line-height: 1.5;
+		overflow-wrap: anywhere;
+	}
+
+	.work__link {
+		grid-column: 2;
+		grid-row: 1 / 3;
+		width: clamp(44px, calc(44px + 8 * var(--t)), 52px);
+		height: clamp(44px, calc(44px + 8 * var(--t)), 52px);
+		background: var(--surface);
+		transition: background-color 0.2s;
+	}
+
+	.work__link:hover {
+		background: var(--grey-20);
+	}
+
+	.work__text {
+		margin-top: clamp(24px, calc(24px + 6 * var(--t)), 30px);
+		color: var(--text-muted);
+		line-height: 1.5;
+	}
+
+	@media (max-width: 1023px) {
+		.works__intro {
+			padding: 50px 16px 30px;
+		}
+
+		.works__title {
+			font-size: 28px;
+		}
+
+		.works__label {
+			margin-top: 30px;
+			font-size: 16px;
+		}
+
+		.works__grid {
+			grid-template-columns: 1fr;
+		}
+
+		.work:nth-child(even) {
+			border-left: 0;
+		}
+
+		.work__category {
+			padding: 30px 16px;
+			font-size: 20px;
+		}
+
+		.work__body {
+			padding: 16px 16px 40px;
+		}
+
+		.work__meta {
+			column-gap: 16px;
+		}
+
+		.work__link {
+			grid-row: 2;
+		}
+	}
+</style>
