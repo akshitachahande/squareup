@@ -1,0 +1,429 @@
+---
+/**
+ * The project enquiry form (name, email, reasons, budget range, message).
+ * Used under the CTA banner on most pages and on its own on Contact.
+ */
+import Icon from './Icon.astro';
+
+const reasons = ['Web Design', 'Collaboration', 'Mobile App Design', 'Others'];
+const budget = { min: 0, max: 10000, step: 500, from: 1000, to: 5000 };
+---
+
+<div class="contact__body">
+	<!-- TODO: submit to Supabase (contact_messages table) -->
+	<form class="form" id="contact-fields" novalidate>
+		<div class="form__row">
+			<label class="field">
+				<span class="field__label">Full Name</span>
+				<input class="field__input" type="text" name="name" placeholder="Type here" autocomplete="name" required />
+			</label>
+			<label class="field">
+				<span class="field__label">Email</span>
+				<input class="field__input" type="email" name="email" placeholder="Type here" autocomplete="email" required />
+			</label>
+		</div>
+
+		<fieldset class="field">
+			<legend class="field__label">Why are you contacting us?</legend>
+			<div class="checks">
+				{
+					reasons.map((r, i) => (
+						<label class="check">
+							<input type="checkbox" name="reasons" value={r} checked={i === 0} />
+							<span class="check__box">
+								<Icon name="check" size={18} />
+							</span>
+							{r}
+						</label>
+					))
+				}
+			</div>
+		</fieldset>
+
+		<fieldset class="field">
+			<legend class="field__label">Your Budget</legend>
+			<p class="field__hint">Slide to indicate your budget range</p>
+			<div
+				class="range"
+				style={`--from: ${(budget.from / budget.max) * 100}%; --to: ${(budget.to / budget.max) * 100}%`}
+			>
+				<div class="range__track"></div>
+				<input
+					type="range"
+					name="budget_min"
+					aria-label="Minimum budget"
+					min={budget.min}
+					max={budget.max}
+					step={budget.step}
+					value={budget.from}
+				/>
+				<input
+					type="range"
+					name="budget_max"
+					aria-label="Maximum budget"
+					min={budget.min}
+					max={budget.max}
+					step={budget.step}
+					value={budget.to}
+				/>
+				<output class="range__label range__label--from">${budget.from}</output>
+				<output class="range__label range__label--to">${budget.to}</output>
+			</div>
+		</fieldset>
+
+		<label class="field">
+			<span class="field__label">Your Message</span>
+			<textarea class="field__input field__textarea" name="message" placeholder="Type here" rows="2"></textarea>
+		</label>
+
+		<button type="submit" class="btn btn-primary form__submit">Submit</button>
+	</form>
+</div>
+
+
+<script>
+	for (const range of document.querySelectorAll<HTMLElement>('.range')) {
+		const [lo, hi] = range.querySelectorAll<HTMLInputElement>('input[type=range]');
+		const [loLabel, hiLabel] = range.querySelectorAll('output');
+		const max = Number(lo.max);
+
+		const update = (moved: HTMLInputElement) => {
+			// Keep the thumbs from crossing
+			if (Number(lo.value) > Number(hi.value)) {
+				if (moved === lo) lo.value = hi.value;
+				else hi.value = lo.value;
+			}
+			range.style.setProperty('--from', `${(Number(lo.value) / max) * 100}%`);
+			range.style.setProperty('--to', `${(Number(hi.value) / max) * 100}%`);
+			loLabel.textContent = `$${lo.value}`;
+			hiLabel.textContent = `$${hi.value}`;
+		};
+
+		lo.addEventListener('input', () => update(lo));
+		hi.addEventListener('input', () => update(hi));
+	}
+</script>
+
+<style>
+	.contact__body {
+		display: flex;
+		justify-content: center;
+		border-top: 1px solid var(--border);
+	}
+
+	.form {
+		display: flex;
+		flex-direction: column;
+		gap: 40px;
+		width: min(100%, 1060px);
+		padding: var(--space-section);
+		border-inline: 1px solid var(--border);
+	}
+
+	.form__row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 40px;
+	}
+
+	/* Text fields are tighter than the grouped (fieldset) questions */
+	.field {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+		padding: 24px;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-md);
+		background: rgb(36 36 36 / 0.5);
+	}
+
+	fieldset.field {
+		display: block;
+		padding: 40px;
+	}
+
+	.field__label {
+		float: left; /* lets <legend> sit inside the padded box */
+		width: 100%;
+		padding: 0;
+		font-size: var(--fz-h5);
+		font-weight: 500;
+		line-height: 1.5;
+	}
+
+	.field__hint {
+		clear: both;
+		padding-top: 14px;
+		color: var(--text-muted);
+		font-size: var(--fz-body);
+	}
+
+	.field__input {
+		clear: both;
+		width: 100%;
+		margin-top: 20px;
+		padding: 0 0 6px;
+		border: 0;
+		border-bottom: 1px solid var(--grey-20);
+		background: none;
+		font-size: var(--fz-body);
+		line-height: 1.5;
+		outline: none;
+		transition: border-color 0.2s;
+	}
+
+	.field__input::placeholder {
+		color: var(--grey-35);
+	}
+
+	.field__input:focus {
+		border-bottom-color: var(--accent);
+	}
+
+	/* Two ruled lines, as in the design */
+	.field__textarea {
+		--line: 40px;
+		--rule: var(--grey-20);
+		resize: none;
+		margin-top: 12px;
+		line-height: var(--line);
+		padding-bottom: 0;
+		background: repeating-linear-gradient(
+			to bottom,
+			transparent 0 calc(var(--line) - 1px),
+			var(--rule) calc(var(--line) - 1px) var(--line)
+		);
+		border-bottom: 0;
+	}
+
+	.field__textarea:focus {
+		--rule: var(--accent);
+	}
+
+	.checks {
+		clear: both;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 24px 20px;
+		padding-top: 40px;
+	}
+
+	.check {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		font-size: var(--fz-body);
+		cursor: pointer;
+	}
+
+	.check input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.check__box {
+		display: grid;
+		place-items: center;
+		width: 28px;
+		height: 28px;
+		border-radius: var(--radius-sm);
+		background: var(--surface);
+		color: transparent;
+		transition: color 0.15s;
+	}
+
+	.check input:checked + .check__box {
+		color: var(--accent);
+	}
+
+	.check input:focus-visible + .check__box {
+		outline: 2px solid var(--accent);
+		outline-offset: 2px;
+	}
+
+	/*
+	 * Dual-thumb budget slider. The value labels hang below the box's
+	 * content area into its padding, as in the design.
+	 */
+	.range {
+		--thumb: 30px;
+		clear: both;
+		position: relative;
+		height: 45px;
+		margin-top: 50px;
+	}
+
+	.range__track {
+		position: absolute;
+		top: calc(var(--thumb) / 2 - 2px);
+		left: 0;
+		right: 0;
+		height: 4px;
+		border-radius: 2px;
+		background: linear-gradient(
+			to right,
+			var(--grey-20) var(--from),
+			var(--accent) var(--from) var(--to),
+			var(--grey-20) var(--to)
+		);
+	}
+
+	.range input {
+		position: absolute;
+		top: 0;
+		left: calc(var(--thumb) / -2);
+		width: calc(100% + var(--thumb));
+		height: var(--thumb);
+		margin: 0;
+		background: none;
+		pointer-events: none;
+		appearance: none;
+	}
+
+	.range input::-moz-range-track {
+		background: none;
+	}
+
+	.range input::-webkit-slider-thumb {
+		box-sizing: border-box;
+		width: var(--thumb);
+		height: var(--thumb);
+		border: calc(var(--thumb) * 0.23) solid var(--grey-30);
+		border-radius: 50%;
+		background: var(--accent);
+		pointer-events: auto;
+		cursor: grab;
+		appearance: none;
+	}
+
+	.range input::-moz-range-thumb {
+		width: calc(var(--thumb) * 0.54);
+		height: calc(var(--thumb) * 0.54);
+		border: calc(var(--thumb) * 0.23) solid var(--grey-30);
+		border-radius: 50%;
+		background: var(--accent);
+		pointer-events: auto;
+		cursor: grab;
+	}
+
+	.range__label {
+		position: absolute;
+		top: 34px;
+		transform: translateX(-50%);
+		font-size: var(--fz-body);
+		font-weight: 500;
+	}
+
+	.range__label--from {
+		left: var(--from);
+	}
+
+	.range__label--to {
+		left: var(--to);
+	}
+
+	.form__submit {
+		align-self: center;
+		padding: 20px 48px;
+	}
+
+	/* Laptop (1440 frame) */
+	@media (max-width: 1799px) {
+		.form {
+			gap: 30px;
+			width: min(100%, 860px);
+		}
+
+		.form__row {
+			gap: 30px;
+		}
+
+		.field {
+			padding: 20px;
+		}
+
+		fieldset.field {
+			padding: 30px;
+		}
+
+		.field__input {
+			margin-top: 16px;
+			padding-bottom: 4px;
+		}
+
+		.field__textarea {
+			--line: 32px;
+			margin-top: 16px;
+		}
+
+		.checks {
+			padding-top: 30px;
+		}
+
+		.range {
+			--thumb: 20px;
+			height: 38px;
+			margin-top: 46px;
+		}
+
+		.range__label {
+			top: 24px;
+		}
+
+		.form__submit {
+			padding: 16px 36px;
+		}
+	}
+
+	/* Mobile (390 frame) */
+	@media (max-width: 1023px) {
+		.form {
+			padding: 24px 24px 24px;
+			gap: 30px;
+		}
+
+		.form__row,
+		.checks {
+			grid-template-columns: 1fr;
+		}
+
+		.checks {
+			gap: 20px;
+		}
+
+		/* Text fields keep the laptop's 20px padding */
+		fieldset.field {
+			padding: 24px;
+		}
+
+		/* The form uses 16px text on mobile, larger than body copy */
+		.field__input,
+		.check,
+		.range__label {
+			font-size: 16px;
+		}
+
+		.field__input {
+			margin-top: 14px;
+		}
+
+		.field__textarea {
+			--line: 34px;
+			margin-top: 10px;
+		}
+
+		.field__hint {
+			padding-top: 6px;
+		}
+
+		.range {
+			height: 52px;
+			margin-top: 34px;
+		}
+
+		.form__submit {
+			align-self: stretch;
+		}
+	}
+</style>

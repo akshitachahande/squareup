@@ -1,0 +1,275 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Faq from '../components/Faq.astro';
+import Icon from '../components/Icon.astro';
+import SectionBanner from '../components/SectionBanner.astro';
+import ThriveCard from '../components/ThriveCard.astro';
+import { site, socialLinks } from '../data/site';
+
+const channels = [
+	{ icon: 'mail', label: site.email, href: `mailto:${site.email}` },
+	{ icon: 'phone', label: site.phone, href: `tel:${site.phone.replace(/\s/g, '')}` },
+	// TODO: point at the real office on a map
+	{ icon: 'map-pin', label: 'Get Location', href: '#' },
+] as const;
+---
+
+<BaseLayout
+	title="Contact"
+	description="Get in touch with SquareUp about your next digital product."
+>
+	<SectionBanner
+		as="h1"
+		title="Contact Us"
+		image="/images/banners/faq.webp"
+		text="Get in touch with us today and let us help you with any questions or inquiries you may have."
+	/>
+
+	<section class="reach" aria-label="Ways to reach us">
+		<ul class="channels">
+			{
+				channels.map((c) => (
+					<li>
+						<a href={c.href} class="channel">
+							<Icon name={c.icon} size={28} class="channel__icon" />
+							{c.label}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+
+		<ContactForm />
+
+		<div class="info">
+			<div class="info__days">
+				<p class="info__label">Operating Days</p>
+				<p class="info__pill">Monday to Friday</p>
+			</div>
+			<div class="info__social">
+				<div class="social">
+					<p class="info__label">Stay Connected</p>
+					<ul>
+						{
+							socialLinks.map((s) => (
+								<li>
+									<a href={s.href} class="tile social__btn" aria-label={s.label}>
+										<Icon name={s.icon} />
+									</a>
+								</li>
+							))
+						}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<Faq />
+
+	<ThriveCard />
+</BaseLayout>
+
+<style>
+	.reach {
+		border-top: 1px solid var(--border);
+	}
+
+	/* Email / phone / location pills */
+	.channels {
+		display: flex;
+		justify-content: center;
+		gap: 30px;
+		padding: 50px var(--space-card);
+	}
+
+	.channel {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		height: 66px;
+		padding-inline: 24px;
+		border-radius: var(--radius);
+		background: var(--surface);
+		font-size: 20px;
+		white-space: nowrap;
+		transition: background-color 0.2s;
+	}
+
+	.channel:hover {
+		background: var(--grey-20);
+	}
+
+	.channel :global(.channel__icon) {
+		color: var(--accent);
+	}
+
+	/* Operating days beside the social links, split by a rule */
+	.info {
+		display: grid;
+		grid-template-columns: 775fr 821fr;
+		border-top: 1px solid var(--border);
+	}
+
+	.info__days,
+	.info__social {
+		display: flex;
+		align-items: center;
+		padding: 31px 80px;
+	}
+
+	.info__days {
+		justify-content: flex-end;
+		gap: 16px;
+	}
+
+	.info__social {
+		border-left: 1px solid var(--border);
+	}
+
+	.info__label {
+		color: var(--text-muted);
+		font-size: 20px;
+	}
+
+	.info__pill {
+		padding: 12px 24px;
+		border-radius: var(--radius);
+		background: var(--surface);
+		font-size: 20px;
+		line-height: 1.5;
+	}
+
+	.social {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+		padding: 13px 13px 13px 24px;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+	}
+
+	.social .info__label {
+		font-size: 18px;
+	}
+
+	.social ul {
+		display: flex;
+		gap: 14px;
+	}
+
+	.social__btn {
+		width: 64px;
+		height: 64px;
+		border-radius: var(--radius);
+		transition: background-color 0.2s;
+	}
+
+	.social__btn:hover {
+		background-color: var(--grey-20);
+	}
+
+	/* Laptop (1440 frame) */
+	@media (max-width: 1799px) {
+		.channels {
+			gap: 20px;
+			padding-block: 40px;
+		}
+
+		.channel {
+			gap: 10px;
+			height: 52px;
+			padding-inline: 20px;
+			font-size: 16px;
+		}
+
+		.channel :global(.channel__icon) {
+			width: 24px;
+			height: 24px;
+		}
+
+		.info {
+			grid-template-columns: 611fr 671fr;
+		}
+
+		.info__days,
+		.info__social {
+			padding-block: 36px;
+		}
+
+		.info__days {
+			gap: 14px;
+		}
+
+		.info__label {
+			font-size: 16px;
+		}
+
+		.info__pill {
+			padding: 10px 20px;
+			font-size: 16px;
+		}
+
+		.social {
+			gap: 20px;
+			padding: 9px 9px 9px 20px;
+		}
+
+		.social .info__label {
+			font-size: 16px;
+		}
+
+		.social ul {
+			gap: 10px;
+		}
+
+		.social__btn {
+			width: 52px;
+			height: 52px;
+		}
+	}
+
+	/* Mobile (390 frame) */
+	@media (max-width: 1023px) {
+		.channels {
+			flex-direction: column;
+			gap: 20px;
+			padding: 30px 24px;
+		}
+
+		.channel {
+			justify-content: center;
+			height: 60px;
+		}
+
+		.info {
+			grid-template-columns: 1fr;
+		}
+
+		.info__days {
+			justify-content: center;
+			padding: 20px 24px;
+		}
+
+		.info__social {
+			justify-content: center;
+			padding: 22px 24px 40px;
+			border-left: 0;
+			border-top: 1px solid var(--border);
+		}
+
+		.info__pill {
+			padding: 9px 20px;
+			font-size: 14px;
+		}
+
+		/* No box on mobile: label above the buttons */
+		.social {
+			flex-direction: column;
+			gap: 20px;
+			padding: 0;
+			border: 0;
+		}
+	}
+</style>
