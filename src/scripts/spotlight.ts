@@ -5,6 +5,7 @@
  */
 export const spotlightCards = [
 	'.service',
+	'.showcase__card',
 	'.reason',
 	'.testimonial',
 	'.item',

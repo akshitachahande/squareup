@@ -36,7 +36,7 @@ import { reasons } from '../../data/home';
 	}
 
 	.reason {
-		padding: var(--space-section);
+		padding: var(--space-cell) var(--space-card);
 	}
 
 	.reason:nth-child(even) {
@@ -65,7 +65,7 @@ import { reasons } from '../../data/home';
 	}
 
 	.reason__text {
-		margin-top: 40px;
+		margin-top: 32px;
 		color: var(--text-muted);
 		font-size: 20px;
 		line-height: 1.5;
@@ -83,7 +83,7 @@ import { reasons } from '../../data/home';
 		}
 
 		.reason__text {
-			margin-top: 36px;
+			margin-top: 24px;
 			font-size: 16px;
 		}
 	}
@@ -95,7 +95,7 @@ import { reasons } from '../../data/home';
 		}
 
 		.reason {
-			padding: 40px 30px;
+			padding: var(--space-cell) 24px;
 		}
 
 		.reason:nth-child(even) {
@@ -127,6 +127,21 @@ import { reasons } from '../../data/home';
 		.reason__text {
 			margin-top: 24px;
 			font-size: 14px;
+		}
+	}
+
+	/* Tablet: two columns instead of one long stretched list */
+	@media (min-width: 700px) and (max-width: 1023px) {
+		.reasons {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		.reason:nth-child(even) {
+			border-left: 1px solid var(--border);
+		}
+
+		.reason:nth-child(2) {
+			border-top: 0;
 		}
 	}
 </style>

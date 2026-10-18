@@ -51,8 +51,8 @@ import { storyChapters } from '../data/about';
 		display: grid;
 		grid-template-columns: 1fr 598px;
 		align-items: center;
-		gap: 108px;
-		padding: 100px 150px;
+		gap: 100px;
+		padding: var(--space-intro) 120px;
 		border-top: 1px solid var(--border);
 	}
 
@@ -83,7 +83,7 @@ import { storyChapters } from '../data/about';
 	}
 
 	.story__title {
-		padding: 106px var(--space-card);
+		padding: var(--space-intro) var(--space-card) var(--space-card);
 		font-size: var(--fz-h2);
 		font-weight: 600;
 		line-height: 1.2;
@@ -93,8 +93,8 @@ import { storyChapters } from '../data/about';
 	@media (max-width: 1799px) {
 		.about {
 			grid-template-columns: 1fr 490px;
-			gap: 110px;
-			padding: 81px 100px;
+			gap: 80px;
+			padding: var(--space-intro) 80px;
 		}
 
 		.about__text {
@@ -106,8 +106,14 @@ import { storyChapters } from '../data/about';
 			aspect-ratio: 490 / 482;
 		}
 
-		.story__title {
-			padding: 86px var(--space-card);
+	}
+
+	/* Small laptop: the fixed image column would squeeze the copy */
+	@media (max-width: 1279px) {
+		.about {
+			grid-template-columns: 1fr 1fr;
+			gap: 56px;
+			padding-inline: var(--space-section);
 		}
 	}
 
@@ -134,7 +140,7 @@ import { storyChapters } from '../data/about';
 		}
 
 		.story__title {
-			padding: 46px 24px;
+			padding: var(--space-intro) 24px 24px;
 		}
 	}
 </style>

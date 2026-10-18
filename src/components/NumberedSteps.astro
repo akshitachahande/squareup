@@ -35,7 +35,7 @@ const { steps, tone = 'subtle' } = Astro.props;
 	}
 
 	.step {
-		padding: 85px var(--space-card) 100px;
+		padding: var(--space-cell) var(--space-card);
 		border-top: 1px solid var(--border);
 	}
 
@@ -53,7 +53,7 @@ const { steps, tone = 'subtle' } = Astro.props;
 	.step__num {
 		flex: none;
 		color: var(--green-80);
-		font-size: 150px;
+		font-size: 128px;
 		font-weight: 600;
 		/* Makes the box bottom land on the baseline */
 		line-height: 0.8;
@@ -61,7 +61,7 @@ const { steps, tone = 'subtle' } = Astro.props;
 
 	.step__title {
 		flex: 1;
-		padding: 0 0 20px 10px;
+		padding: 0 0 16px 10px;
 		border-bottom: 1px solid var(--border);
 		color: var(--text-subtle);
 		font-size: 28px;
@@ -75,7 +75,7 @@ const { steps, tone = 'subtle' } = Astro.props;
 	}
 
 	.step__text {
-		margin-top: 50px;
+		margin-top: 32px;
 		color: var(--text-subtle);
 		font-size: 18px;
 		line-height: 1.5;
@@ -83,25 +83,21 @@ const { steps, tone = 'subtle' } = Astro.props;
 
 	/* Laptop (1440 frame) */
 	@media (max-width: 1799px) {
-		.step {
-			padding: 67px var(--space-card) 80px;
-		}
-
 		.step__head {
 			gap: 16px;
 		}
 
 		.step__num {
-			font-size: 120px;
+			font-size: 100px;
 		}
 
 		.step__title {
-			padding-bottom: 16px;
+			padding-bottom: 12px;
 			font-size: 22px;
 		}
 
 		.step__text {
-			margin-top: 40px;
+			margin-top: 24px;
 			font-size: 16px;
 		}
 	}
@@ -113,7 +109,7 @@ const { steps, tone = 'subtle' } = Astro.props;
 		}
 
 		.step {
-			padding: 31px 24px 40px;
+			padding: var(--space-cell) 24px;
 		}
 
 		.step:nth-child(even) {
@@ -135,8 +131,19 @@ const { steps, tone = 'subtle' } = Astro.props;
 		}
 
 		.step__text {
-			margin-top: 30px;
+			margin-top: 20px;
 			font-size: 14px;
+		}
+	}
+
+	/* Tablet: two columns instead of one long stretched list */
+	@media (min-width: 700px) and (max-width: 1023px) {
+		.steps {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		.step:nth-child(even) {
+			border-left: 1px solid var(--border);
 		}
 	}
 </style>

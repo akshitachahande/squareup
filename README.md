@@ -1,43 +1,74 @@
-# Astro Starter Kit: Minimal
+# SquareUp
+
+A portfolio website for SquareUp, a digital product studio. It's built with [Astro](https://astro.build) from the SquareUp Figma Community template.
+
+The site has seven pages: Home, Services, Work, Process, About, Careers and Contact. It's a dark theme with lime-green accents, and it uses scroll-reveal and hover animations.
+
+## Tech stack
+
+- **Astro 7** + TypeScript
+- **Barlow** font, from `@fontsource/barlow`
+- **Lucide** icons, from `@lucide/astro`
+- **Supabase** (`@supabase/supabase-js`), installed for the contact and job application forms. It isn't connected yet.
+- **Playwright**, a dev dependency, for checking layouts at different screen widths
+
+## Getting started
+
+Requires Node.js 22.22 or later.
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Then open http://localhost:4321.
 
-## 🚀 Project Structure
+| Command           | Action                                          |
+| :---------------- | :---------------------------------------------- |
+| `npm run dev`     | Start the dev server at `localhost:4321`        |
+| `npm run build`   | Build the production site to `./dist/`          |
+| `npm run preview` | Preview the production build locally            |
+| `npx astro check` | Type-check `.astro` and `.ts` files             |
 
-Inside of your Astro project, you'll see the following folders and files:
+## Project structure
 
 ```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+public/
+  images/            Banners, brand logos, project mockups, testimonial photos
+src/
+  components/        Shared sections (navbar, footer, banners, FAQ, contact form...)
+    home/            Home page sections (hero, services, featured work...)
+  data/              Page content as typed TypeScript arrays
+  layouts/           BaseLayout: <head>, navbar, footer, scripts
+  pages/             One file per route
+  scripts/           Scroll reveal and card spotlight effects
+  styles/global.css  Design tokens, reset, buttons, shared helpers
+design-exports/      Figma screenshots used as the reference for each page
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Most text, such as services, projects, testimonials, FAQs and job openings, lives in `src/data/`. To change it, edit those files rather than the page markup.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Responsive design
 
-Any static assets, like images, can be placed in the `public/` directory.
+Every page follows three Figma frames, and each frame has its own CSS tier:
 
-## 🧞 Commands
+| Tier    | Figma frame | Media query                 |
+| :------ | :---------- | :-------------------------- |
+| Desktop | 1920px      | Base styles                 |
+| Laptop  | 1440px      | `@media (max-width: 1799px)` |
+| Mobile  | 390px       | `@media (max-width: 1023px)` |
 
-All commands are run from the root of the project, from a terminal:
+Two extra blocks handle the sizes in between:
+- Small laptop: `max-width: 1279px`
+- Tablet: `700px` to `1023px`, which puts card grids back into two columns
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Spacing comes from shared tokens in `global.css`, so similar blocks match across pages:
+- `--space-intro`
+- `--space-section`
+- `--space-cell`
+- `--space-card`
 
-## 👀 Want to learn more?
+## Notes
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- The logos, mockups, testimonials and job listings are placeholder content from the template. They will be replaced later.
+- The "Our Recent Works" cards on the home page aren't in the Figma template. They reuse the projects from the Work page.

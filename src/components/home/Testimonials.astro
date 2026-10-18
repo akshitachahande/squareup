@@ -46,7 +46,7 @@ import { testimonials } from '../../data/home';
 		flex-direction: column;
 		justify-content: space-between;
 		gap: 40px;
-		padding: var(--space-section) var(--space-section) 100px;
+		padding: var(--space-cell) var(--space-card);
 	}
 
 	.testimonial:nth-child(even) {
@@ -59,7 +59,7 @@ import { testimonials } from '../../data/home';
 
 	/* Push the quote down a little, as in the design */
 	blockquote {
-		padding-top: 24px;
+		padding-top: 0;
 	}
 
 	.testimonial__title {
@@ -114,11 +114,6 @@ import { testimonials } from '../../data/home';
 	@media (max-width: 1799px) {
 		.testimonial {
 			gap: 30px;
-			padding: var(--space-section) var(--space-section) 80px;
-		}
-
-		blockquote {
-			padding-top: 20px;
 		}
 
 		.testimonial__text {
@@ -147,7 +142,7 @@ import { testimonials } from '../../data/home';
 		}
 
 		.testimonial {
-			padding: 40px 24px;
+			padding: var(--space-cell) 24px;
 		}
 
 		.testimonial:nth-child(even) {
@@ -174,6 +169,21 @@ import { testimonials } from '../../data/home';
 		/* Hidden on mobile in the design */
 		.author__link {
 			display: none;
+		}
+	}
+
+	/* Tablet: two columns instead of one long stretched list */
+	@media (min-width: 700px) and (max-width: 1023px) {
+		.testimonials {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		.testimonial:nth-child(even) {
+			border-left: 1px solid var(--border);
+		}
+
+		.testimonial:nth-child(2) {
+			border-top: 0;
 		}
 	}
 </style>

@@ -56,7 +56,7 @@ import { serviceAreas } from '../data/services';
 	}
 
 	.area__intro {
-		padding: 120px var(--space-card) var(--space-card);
+		padding: var(--space-intro) var(--space-card) var(--space-card);
 	}
 
 	.area__title {
@@ -83,7 +83,7 @@ import { serviceAreas } from '../data/services';
 	}
 
 	.group__title {
-		padding: var(--space-card);
+		padding: 32px var(--space-card);
 		border-top: 1px solid var(--border);
 		color: var(--text-subtle);
 		font-size: var(--fz-h4);
@@ -126,10 +126,6 @@ import { serviceAreas } from '../data/services';
 
 	/* Laptop (1440 frame) */
 	@media (max-width: 1799px) {
-		.area__intro {
-			padding: 80px var(--space-card) var(--space-card);
-		}
-
 		.area__text {
 			max-width: 920px;
 			margin-top: 10px;

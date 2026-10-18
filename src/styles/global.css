@@ -11,6 +11,10 @@
  *   - Laptop (1440 frame):  @media (max-width: 1799px)
  *   - Mobile (390 frame):   @media (max-width: 1023px)
  * Keep the laptop block before the mobile block so mobile wins below 1024px.
+ * Two in-between ranges have small extra blocks where a layout needs them:
+ *   - Small laptop: @media (max-width: 1279px), placed after the laptop block
+ *   - Tablet: @media (min-width: 700px) and (max-width: 1023px), placed last,
+ *     puts single-column card lists back into two columns
  */
 :root {
 	/* Absolute */
@@ -68,8 +72,18 @@
 	/* Motion */
 	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 
-	/* Shared spacing */
+	/*
+	 * Shared spacing. Every block uses these so similar pieces sit at the
+	 * same scale across pages:
+	 *   --space-intro    above a heading block ("At SquareUp", "Design"...)
+	 *   --space-section  around sections and big containers
+	 *   --space-cell     top/bottom padding of large grid cells (steps,
+	 *                    reasons, testimonials, benefits, project cards)
+	 *   --space-card     side padding of cells and padding of small cards
+	 */
+	--space-intro: 100px;
 	--space-section: 80px;
+	--space-cell: 64px;
 	--space-card: 50px;
 	--nav-h: 100px;
 
@@ -87,7 +101,9 @@
 		--fz-lead: 18px;
 		--fz-body: 16px;
 		--fz-ui: 14px;
+		--space-intro: 72px;
 		--space-section: 60px;
+		--space-cell: 50px;
 		--space-card: 40px;
 		--nav-h: 85px;
 	}
@@ -106,7 +122,9 @@
 		--fz-ui: 14px;
 
 		--pad: 16px;
+		--space-intro: 40px;
 		--space-section: 50px;
+		--space-cell: 36px;
 		--space-card: 30px;
 		--nav-h: 106px;
 	}

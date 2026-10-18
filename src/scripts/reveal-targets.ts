@@ -31,6 +31,7 @@ export const revealBlocks = [
 export const revealStaggered = [
 	'.brands__list > li',
 	'.service',
+	'.showcase__card',
 	'.reason',
 	'.testimonial',
 	'.faq__item',

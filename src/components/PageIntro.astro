@@ -22,7 +22,7 @@ const { title, text, label, id } = Astro.props;
 
 <style>
 	.intro {
-		padding: 120px var(--space-card) var(--space-card);
+		padding: var(--space-intro) var(--space-card) var(--space-card);
 	}
 
 	.intro__title {
@@ -50,10 +50,6 @@ const { title, text, label, id } = Astro.props;
 
 	/* Laptop (1440 frame) */
 	@media (max-width: 1799px) {
-		.intro {
-			padding-top: 80px;
-		}
-
 		.intro__text {
 			max-width: 920px;
 			margin-top: 10px;

@@ -1,0 +1,211 @@
+---
+/**
+ * Three project cards between Services and Why Choose Us, a preview of the
+ * Work page. Not in the Figma template; it reuses the Work page's data and
+ * mockups and follows the same bordered-grid card style as Services.
+ */
+import Icon from '../Icon.astro';
+import SectionBanner from '../SectionBanner.astro';
+import { works } from '../../data/works';
+
+const featured = works.slice(0, 3);
+---
+
+<section aria-labelledby="featured-title">
+	<SectionBanner
+		id="featured-title"
+		title="Our Recent Works"
+		text="A few of the digital products we have designed and built for our clients."
+	/>
+
+	<ul class="showcase">
+		{
+			featured.map((w) => (
+				<li class="showcase__card">
+					<div class="showcase__media">
+						<img
+							class="showcase__image"
+							src={w.image}
+							alt={`${w.name} website and mobile mockups`}
+							width="698"
+							height="422"
+							loading="lazy"
+						/>
+					</div>
+					<p class="showcase__category">{w.category}</p>
+					<h3 class="showcase__name">{w.name}</h3>
+					<p class="showcase__text">{w.text}</p>
+					<a href="/work" class="btn btn-secondary showcase__more">
+						View Project<span class="sr-only">: {w.name}</span>
+						<Icon name="arrow-up-right" size={18} />
+					</a>
+				</li>
+			))
+		}
+	</ul>
+
+	<div class="showcase__all">
+		<a href="/work" class="btn btn-outline">See All Projects</a>
+	</div>
+</section>
+
+<style>
+	.showcase {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.showcase__card {
+		display: flex;
+		flex-direction: column;
+		padding: var(--space-card);
+	}
+
+	.showcase__card + .showcase__card {
+		border-left: 1px solid var(--border);
+	}
+
+	.showcase__media {
+		overflow: hidden;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-lg);
+	}
+
+	.showcase__image {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 698 / 422;
+		object-fit: cover;
+		transition: transform 0.6s var(--ease-out);
+	}
+
+	.showcase__card:hover .showcase__image {
+		transform: scale(1.04);
+	}
+
+	.showcase__category {
+		align-self: flex-start;
+		margin-top: 30px;
+		padding: 6px 12px;
+		border-radius: var(--radius-sm);
+		background: var(--surface);
+		color: var(--text-subtle);
+		font-size: 16px;
+		line-height: 1.4;
+	}
+
+	.showcase__name {
+		margin-top: 16px;
+		color: var(--green-80);
+		font-size: var(--fz-h3);
+		font-weight: 600;
+		line-height: 1.3;
+	}
+
+	.showcase__text {
+		display: -webkit-box;
+		margin-top: 12px;
+		margin-bottom: 40px;
+		overflow: hidden;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+		color: var(--text-muted);
+		line-height: 1.5;
+	}
+
+	/* Pinned to the bottom so the buttons line up across cards */
+	.showcase__more {
+		margin-top: auto;
+		width: 100%;
+	}
+
+	.showcase__more :global(svg) {
+		transition: transform 0.3s var(--ease-out);
+	}
+
+	.showcase__card:hover .showcase__more :global(svg) {
+		transform: translate(2px, -2px);
+	}
+
+	.showcase__all {
+		display: flex;
+		justify-content: center;
+		padding: 30px var(--space-card);
+		border-top: 1px solid var(--border);
+	}
+
+	/* Laptop (1440 frame) */
+	@media (max-width: 1799px) {
+		.showcase__category {
+			margin-top: 24px;
+			font-size: 14px;
+		}
+
+		.showcase__name {
+			margin-top: 12px;
+		}
+
+		.showcase__text {
+			margin-top: 10px;
+			margin-bottom: 30px;
+		}
+
+		.showcase__all {
+			padding-block: 24px;
+		}
+	}
+
+	/* Mobile (390 frame) */
+	@media (max-width: 1023px) {
+		.showcase {
+			grid-template-columns: 1fr;
+		}
+
+		.showcase__card {
+			padding: var(--space-cell) 24px;
+		}
+
+		.showcase__card + .showcase__card {
+			border-left: 0;
+			border-top: 1px solid var(--border);
+		}
+
+		.showcase__category {
+			margin-top: 20px;
+			font-size: 13px;
+		}
+
+		.showcase__text {
+			margin-bottom: 24px;
+		}
+
+		.showcase__all {
+			padding: 24px;
+		}
+
+		.showcase__all .btn {
+			width: 100%;
+		}
+	}
+
+	/* Tablet: two columns; a lone third card would stretch, so it waits for
+	   the Work page */
+	@media (min-width: 700px) and (max-width: 1023px) {
+		.showcase {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		.showcase__card:nth-child(2) {
+			border-top: 0;
+			border-left: 1px solid var(--border);
+		}
+
+		.showcase__card:nth-child(3) {
+			display: none;
+		}
+
+		.showcase__all .btn {
+			width: auto;
+		}
+	}
+</style>

@@ -88,7 +88,7 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z]+/g, '-');
 	}
 
 	.benefit {
-		padding: 104px var(--space-card) 100px;
+		padding: var(--space-cell) var(--space-card);
 		border-top: 1px solid var(--border);
 	}
 
@@ -97,16 +97,16 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z]+/g, '-');
 	}
 
 	.benefit__title {
-		padding-bottom: 46px;
+		padding-bottom: 20px;
 		border-bottom: 1px solid var(--border);
 		color: var(--green-80);
-		font-size: 40px;
+		font-size: 32px;
 		font-weight: 500;
 		line-height: 1.5;
 	}
 
 	.benefit__text {
-		margin-top: 50px;
+		margin-top: 24px;
 		color: var(--text-subtle);
 		font-size: 18px;
 		line-height: 1.5;
@@ -114,7 +114,7 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z]+/g, '-');
 
 	/* Current Openings */
 	.group__title {
-		padding: 45px var(--space-card);
+		padding: 32px var(--space-card);
 		border-top: 1px solid var(--border);
 		color: var(--text-subtle);
 		font-size: 28px;
@@ -165,22 +165,18 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z]+/g, '-');
 
 	/* Laptop (1440 frame) */
 	@media (max-width: 1799px) {
-		.benefit {
-			padding: 84px var(--space-card) 80px;
-		}
-
 		.benefit__title {
-			padding-bottom: 38px;
-			font-size: 30px;
+			padding-bottom: 16px;
+			font-size: 26px;
 		}
 
 		.benefit__text {
-			margin-top: 30px;
+			margin-top: 20px;
 			font-size: 16px;
 		}
 
 		.group__title {
-			padding: 36px var(--space-card);
+			padding: 26px var(--space-card);
 			font-size: 22px;
 		}
 
@@ -217,7 +213,7 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z]+/g, '-');
 		}
 
 		.benefit {
-			padding: 40px 24px;
+			padding: var(--space-cell) 24px;
 		}
 
 		.benefit:nth-child(even) {
@@ -225,18 +221,18 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z]+/g, '-');
 		}
 
 		.benefit__title {
-			padding-bottom: 18px;
-			font-size: 24px;
+			padding-bottom: 14px;
+			font-size: 22px;
 			line-height: 1.4;
 		}
 
 		.benefit__text {
-			margin-top: 20px;
+			margin-top: 16px;
 			font-size: 14px;
 		}
 
 		.group__title {
-			padding: 37px 24px;
+			padding: 28px 24px;
 			text-align: center;
 			font-size: 20px;
 		}
@@ -267,6 +263,17 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z]+/g, '-');
 		.job__text {
 			margin-top: 15px;
 			font-size: 14px;
+		}
+	}
+
+	/* Tablet: two columns instead of one long stretched list */
+	@media (min-width: 700px) and (max-width: 1023px) {
+		.benefits {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		.benefit:nth-child(even) {
+			border-left: 1px solid var(--border);
 		}
 	}
 </style>
