@@ -144,6 +144,8 @@
 html {
 	-webkit-text-size-adjust: 100%;
 	scroll-behavior: smooth;
+	/* Anchor targets land below the sticky navbar */
+	scroll-padding-top: var(--nav-h);
 }
 
 body {
@@ -244,6 +246,17 @@ ol {
 	transition-duration: 0.08s;
 }
 
+/* Touch screens: no hover lift (it sticks after a tap), a press instead */
+@media (hover: none) {
+	.btn:hover {
+		transform: none;
+	}
+
+	.btn:active {
+		transform: scale(0.96);
+	}
+}
+
 /* Laptop (1440 frame) */
 @media (max-width: 1799px) {
 	.btn {
@@ -291,8 +304,10 @@ ol {
 	transition: transform 0.35s var(--ease-out);
 }
 
-/* Icon tiles lift slightly when their card is hovered */
-:is(.service, .reason, .item, .job):hover .tile {
+/* Icon tiles lift slightly when their card is hovered. On touch screens
+   .is-active stands in for hover: spotlight.ts gives it to the card in the
+   middle of the screen as the page scrolls. */
+:is(.service, .reason, .item, .job):is(:hover, .is-active) .tile {
 	transform: translateY(-4px) scale(1.05);
 }
 
@@ -313,7 +328,7 @@ ol {
 	transition: --spot 0.4s var(--ease-out);
 }
 
-.spotlight:hover {
+.spotlight:is(:hover, .is-active) {
 	--spot: 1;
 }
 
@@ -323,8 +338,8 @@ ol {
 	transition: transform 0.6s var(--ease-out);
 }
 
-.work:hover .work__image,
-.about__image:hover {
+.work:is(:hover, .is-active) .work__image,
+.about__image:is(:hover, .is-active) {
 	transform: scale(1.025);
 }
 
@@ -332,7 +347,7 @@ ol {
 	transition: border-color 0.3s;
 }
 
-.testimonial:hover .author {
+.testimonial:is(:hover, .is-active) .author {
 	border-color: var(--grey-20);
 }
 
@@ -340,7 +355,7 @@ ol {
 	transition: transform 0.3s var(--ease-out);
 }
 
-.work:hover .work__link svg {
+.work:is(:hover, .is-active) .work__link svg {
 	transform: translate(2px, -2px);
 }
 

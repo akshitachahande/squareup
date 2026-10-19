@@ -56,8 +56,10 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
 </script>
 
 <style>
+	/* Stays pinned to the top while the page scrolls */
 	.navbar {
-		position: relative;
+		position: sticky;
+		top: 0;
 		z-index: 10;
 		border-bottom: 1px solid var(--border);
 		background: var(--bg);
@@ -159,6 +161,9 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
 			flex-direction: column;
 			align-items: stretch;
 			gap: 16px;
+			/* The bar is sticky, so a tall menu scrolls inside itself */
+			max-height: calc(100dvh - var(--nav-h));
+			overflow-y: auto;
 			padding: 20px var(--pad) 30px;
 			border-bottom: 1px solid var(--border);
 			background: var(--bg);

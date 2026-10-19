@@ -79,7 +79,7 @@ const featured = works.slice(0, 3);
 		transition: transform 0.6s var(--ease-out);
 	}
 
-	.showcase__card:hover .showcase__image {
+	.showcase__card:is(:hover, .is-active) .showcase__image {
 		transform: scale(1.04);
 	}
 
@@ -123,7 +123,7 @@ const featured = works.slice(0, 3);
 		transition: transform 0.3s var(--ease-out);
 	}
 
-	.showcase__card:hover .showcase__more :global(svg) {
+	.showcase__card:is(:hover, .is-active) .showcase__more :global(svg) {
 		transform: translate(2px, -2px);
 	}
 
