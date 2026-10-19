@@ -301,14 +301,19 @@ ol {
 	border-radius: var(--radius-md);
 	background: linear-gradient(180deg, var(--grey-15) 0%, rgb(38 38 38 / 0) 100%);
 	color: var(--accent);
-	transition: transform 0.35s var(--ease-out);
+	transition:
+		transform 0.35s var(--ease-out),
+		box-shadow 0.35s var(--ease-out);
 }
 
 /* Icon tiles lift slightly when their card is hovered. On touch screens
    .is-active stands in for hover: spotlight.ts gives it to the card in the
    middle of the screen as the page scrolls. */
-:is(.service, .reason, .item, .job):is(:hover, .is-active) .tile {
+:is(.service, .stat, .reason, .item, .job):is(:hover, .is-active) .tile {
 	transform: translateY(-4px) scale(1.05);
+	box-shadow:
+		0 0 0 1px rgb(158 255 0 / 0.25),
+		0 10px 30px -8px rgb(158 255 0 / 0.35);
 }
 
 /* Pointer-following glow on grid cards (position from src/scripts/spotlight.ts).
@@ -319,17 +324,32 @@ ol {
 	initial-value: 0;
 }
 
+/* --line: how far the lime accent along the card's top edge has grown */
+@property --line {
+	syntax: '<percentage>';
+	inherits: false;
+	initial-value: 0%;
+}
+
 .spotlight {
-	background-image: radial-gradient(
-		420px circle at var(--mx, 50%) var(--my, 50%),
-		rgb(158 255 0 / calc(0.07 * var(--spot))),
-		transparent 70%
-	);
-	transition: --spot 0.4s var(--ease-out);
+	background-image:
+		linear-gradient(90deg, transparent, var(--accent) 25%, var(--accent) 75%, transparent),
+		radial-gradient(
+			420px circle at var(--mx, 50%) var(--my, 50%),
+			rgb(158 255 0 / calc(0.07 * var(--spot))),
+			transparent 70%
+		);
+	background-position: 50% 0, 0 0;
+	background-size: var(--line) 2px, auto;
+	background-repeat: no-repeat;
+	transition:
+		--spot 0.4s var(--ease-out),
+		--line 0.6s var(--ease-out);
 }
 
 .spotlight:is(:hover, .is-active) {
 	--spot: 1;
+	--line: 70%;
 }
 
 /* Card images and inner panels respond to their card being hovered */

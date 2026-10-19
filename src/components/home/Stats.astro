@@ -1,0 +1,148 @@
+---
+/**
+ * Row of number cards under the hero. The numbers count up from zero the
+ * first time the row scrolls into view; without JS (or with reduced motion)
+ * the final values are already in the HTML.
+ */
+import Icon from '../Icon.astro';
+import { stats } from '../../data/home';
+---
+
+<section class="stats" aria-label="SquareUp in numbers">
+	<ul class="stats__list">
+		{
+			stats.map((s) => (
+				<li class="stat">
+					<span class="tile stat__icon">
+						<Icon name={s.icon} size={26} />
+					</span>
+					<p class="stat__value">
+						<span data-count={s.value}>{s.value}</span>
+						<span class="stat__suffix">{s.suffix}</span>
+					</p>
+					<p class="stat__label">{s.label}</p>
+				</li>
+			))
+		}
+	</ul>
+</section>
+
+<script>
+	const numbers = document.querySelectorAll<HTMLElement>('[data-count]');
+	const DURATION = 1600;
+	const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+
+	function countUp(el: HTMLElement) {
+		const target = Number(el.dataset.count);
+		const start = performance.now();
+		const tick = (now: number) => {
+			const t = Math.min((now - start) / DURATION, 1);
+			el.textContent = String(Math.round(target * easeOut(t)));
+			if (t < 1) requestAnimationFrame(tick);
+		};
+		requestAnimationFrame(tick);
+	}
+
+	if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (!entry.isIntersecting) continue;
+					countUp(entry.target as HTMLElement);
+					observer.unobserve(entry.target);
+				}
+			},
+			{ threshold: 0.6 },
+		);
+		for (const el of numbers) {
+			el.textContent = '0';
+			observer.observe(el);
+		}
+	}
+</script>
+
+<style>
+	.stats {
+		border-top: 1px solid var(--border);
+	}
+
+	.stats__list {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+	}
+
+	.stat {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		padding: var(--space-cell) var(--space-card);
+	}
+
+	.stat + .stat {
+		border-left: 1px solid var(--border);
+	}
+
+	.stat__icon {
+		width: 58px;
+		height: 58px;
+		margin-bottom: 20px;
+	}
+
+	.stat__value {
+		display: flex;
+		align-items: baseline;
+		font-size: var(--fz-display);
+		font-weight: 600;
+		line-height: 1.1;
+		/* Digits keep the same width so the count doesn't jitter */
+		font-variant-numeric: tabular-nums;
+	}
+
+	.stat__suffix {
+		color: var(--accent);
+	}
+
+	.stat__label {
+		color: var(--text-subtle);
+		font-size: var(--fz-body);
+	}
+
+	/* Laptop (1440 frame) */
+	@media (max-width: 1799px) {
+		.stat__icon {
+			width: 48px;
+			height: 48px;
+			margin-bottom: 14px;
+		}
+	}
+
+	/* Mobile (390 frame) */
+	@media (max-width: 1023px) {
+		.stats__list {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		.stat {
+			gap: 6px;
+			padding: 30px 24px;
+		}
+
+		.stat + .stat {
+			border-left: 0;
+		}
+
+		.stat:nth-child(even) {
+			border-left: 1px solid var(--border);
+		}
+
+		.stat:nth-child(n + 3) {
+			border-top: 1px solid var(--border);
+		}
+
+		.stat__icon {
+			width: 44px;
+			height: 44px;
+			margin-bottom: 10px;
+		}
+	}
+</style>

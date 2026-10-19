@@ -9,6 +9,17 @@ export const brands = [
 	{ name: 'Adobe', src: '/images/brands/adobe.png', width: 143 },
 ];
 
+/*
+ * Numbers row under the hero. Only "250+ companies" comes from the
+ * template; the rest are placeholders until real figures are supplied.
+ */
+export const stats = [
+	{ icon: 'building', value: 250, suffix: '+', label: 'Companies trust us' },
+	{ icon: 'rocket', value: 500, suffix: '+', label: 'Projects delivered' },
+	{ icon: 'medal', value: 10, suffix: '+', label: 'Years of experience' },
+	{ icon: 'sparkles', value: 98, suffix: '%', label: 'Client satisfaction' },
+] as const;
+
 export const services = [
 	{
 		icon: 'paintbrush',

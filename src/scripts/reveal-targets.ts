@@ -15,6 +15,7 @@ export const revealBlocks = [
 	'.hero__title',
 	'.hero__for',
 	'.hero__actions',
+	'.brands__marquee',
 	'.intro',
 	'.area__intro',
 	'.works__intro',
@@ -29,9 +30,9 @@ export const revealBlocks = [
 
 /* Siblings that stagger: each delay grows with its position in the row */
 export const revealStaggered = [
-	'.brands__list > li',
 	'.service',
 	'.showcase__card',
+	'.stat',
 	'.reason',
 	'.testimonial',
 	'.faq__item',

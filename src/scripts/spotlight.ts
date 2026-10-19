@@ -10,6 +10,7 @@
 export const spotlightCards = [
 	'.service',
 	'.showcase__card',
+	'.stat',
 	'.reason',
 	'.testimonial',
 	'.item',
@@ -36,14 +37,14 @@ if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
 } else {
 	for (const card of cards) card.classList.add('spotlight');
 
-	// Only a thin band across the middle of the viewport counts as "hovered"
+	// Only a thin line across the middle of the viewport counts as "hovered"
 	const observer = new IntersectionObserver(
 		(entries) => {
 			for (const entry of entries) {
 				entry.target.classList.toggle('is-active', entry.isIntersecting);
 			}
 		},
-		{ rootMargin: '-45% 0px -45% 0px' },
+		{ rootMargin: '-49% 0px -50% 0px' },
 	);
 
 	for (const el of document.querySelectorAll<HTMLElement>(activeOnTouch.join(','))) {
